@@ -29,8 +29,14 @@ test_main: unit_tests/test_main.c unit_tests/unit_tests.c dominion.o rngs.o
 cardtest1.o: testSuite/cardtest1.c testSuite/testSuite.h
 	gcc -c testSuite/cardtest1.c -g  $(CFLAGS)
 
-buildTestSuite: cardtest1.o dominion.o card.o rngs.o
-	gcc -o runCardTest testSuite/testSuite.c cardtest1.o dominion.o card.o rngs.o -g $(CFLAGS)
+cardtest2.o: testSuite/cardtest2.c testSuite/testSuite.h
+	gcc -c testSuite/cardtest2.c -g  $(CFLAGS)
+
+cardtest3.o: testSuite/cardtest3.c testSuite/testSuite.h
+	gcc -c testSuite/cardtest3.c -g  $(CFLAGS)
+
+buildTestSuite: cardtest1.o cardtest2.o cardtest3.o dominion.o card.o rngs.o
+	gcc -o runCardTest testSuite/testSuite.c cardtest1.o cardtest2.o cardtest3.o dominion.o card.o rngs.o -g $(CFLAGS)
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)

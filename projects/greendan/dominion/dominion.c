@@ -127,29 +127,31 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   //supply intilization complete
 
   //set player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      state->deckCount[i] = 0;
-      for (j = 0; j < 3; j++)
-	{
-	  state->deck[i][j] = estate;
-	  state->deckCount[i]++;
-	}
-      for (j = 3; j < 10; j++)
-	{
-	  state->deck[i][j] = copper;
-	  state->deckCount[i]++;
-	}
-    }
+  for (i = 0; i < numPlayers; i++){
+    state->deckCount[i] = 0;
+
+		for (j = 0; j < 3; j++){
+	  	state->deck[i][j] = estate;
+	  	state->deckCount[i]++;
+		}
+
+    for (j = 3; j < 10; j++){
+	  	state->deck[i][j] = copper;
+	  	state->deckCount[i]++;
+		}
+
+		for(int k = 10; k < MAX_DECK; k++){
+			state->deck[i][k] = 0;
+		}
+  }
+
 
   //shuffle player decks
-  for (i = 0; i < numPlayers; i++)
-    {
-      if ( shuffle(i, state) < 0 )
-	{
-	  return -1;
-	}
-    }
+  for (i = 0; i < numPlayers; i++){
+  	if ( shuffle(i, state) < 0 ){
+	  	return -1;
+		}
+  }
 
   //initialize all players hands and discard piles to zero
   for (i = 0; i < numPlayers; i++)
@@ -1003,7 +1005,6 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 
     case cutpurse:
-
       updateCoins(currentPlayer, state, 2);
       for (i = 0; i < state->numPlayers; i++){
 	  		if (i != currentPlayer){

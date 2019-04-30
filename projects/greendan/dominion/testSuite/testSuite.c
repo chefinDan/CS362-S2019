@@ -13,7 +13,9 @@ int main(int argc, char** argv){
 	int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
 				 remodel, smithy, village, baron, great_hall};
 
-	testCardEffect(adventurer, &G);
+	testCardEffect(adventurer);
+	testCardEffect(smithy);
+	testCardEffect(cutpurse);
 
 	testDrawCard(&G);
 
@@ -32,7 +34,7 @@ int main(int argc, char** argv){
 // ===	function for the card param. 																			=== //
 // ========================================================================== //
 
-int testCardEffect(int card, struct gameState *G){
+int testCardEffect(int card){
 	switch(card) {
 		case curse:
 			break;
@@ -49,12 +51,10 @@ int testCardEffect(int card, struct gameState *G){
     case gold:
       break;
 		case adventurer:
-			printf("%s\n", "= running: testAdventurerEffect() 1000 times =");
-			for(int i = 0; i< 1000; i++){
-				if(testAdventurerCard() < 0){
-					printf ("%s\n", "***** testAdventurerEffect() failed.");
-					return 0;
-				}
+			printf("%s\n", "= running: testAdventurerCard() =");
+			if(testAdventurerCard() < 0){
+				printf ("%s\n", "***** testAdventurerCard() failed.");
+				return 0;
 			}
 			break;
 
@@ -69,7 +69,13 @@ int testCardEffect(int card, struct gameState *G){
     case remodel:
       break;
     case smithy:
+			printf("%s\n", "= running: testSmithyCard() =");
+			if( testSmithyCard() < 0 ){
+				fprintf(stderr, "testSmithyCard failed\nSet CARDTEST2_DEBUG to 1 for debug info\n");
+				return 0;
+			}
       break;
+
     case village:
       break;
     case baron:
@@ -85,7 +91,10 @@ int testCardEffect(int card, struct gameState *G){
     case ambassador:
       break;
     case cutpurse:
+			printf("%s\n", "= running: testCutpurseCard() 1000 times =");
+			testCutpurseCard();
       break;
+
     case embargo:
       break;
     case outpost:
