@@ -1,5 +1,5 @@
-#ifndef _DOMINION_H
-#define _DOMINION_H
+#ifndef DOMINION_H
+#define DOMINION_H
 
 // Code from various sources, baseline from Kristen Bartosz
 

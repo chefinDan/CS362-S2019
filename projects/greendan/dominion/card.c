@@ -6,6 +6,7 @@
 #include <stdlib.h>
 
 int adventurerEffect(struct gameState *state, int currentPlayer){
+
 	int drawntreasure, cardDrawn, tmpCnt;
 	int temphand[MAX_HAND];
 

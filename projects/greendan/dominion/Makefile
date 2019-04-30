@@ -8,7 +8,7 @@ rngs.o: rngs.h rngs.c
 card.o: card.h card.c
 	gcc -c card.c -g $(CFLAGS)
 
-dominion.o: dominion.h dominion.c card.o rngs.o
+dominion.o: dominion.c dominion.h card.o rngs.o
 	gcc -c dominion.c card.c -g  $(CFLAGS)
 
 playdom: dominion.o playdom.c
@@ -26,8 +26,11 @@ test_main: unit_tests/test_main.c unit_tests/unit_tests.c dominion.o rngs.o
 # testBuyCard: testDrawCard.c dominion.o rngs.o
 	# gcc -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 
-buildTestSuite: testSuite/testSuite.c dominion.o rngs.o
-	gcc -o testSuite/runTests testSuite/testSuite.c dominion.o rngs.o -g $(CFLAGS)
+cardtest1.o: testSuite/cardtest1.c testSuite/testSuite.h
+	gcc -c testSuite/cardtest1.c -g  $(CFLAGS)
+
+buildTestSuite: cardtest1.o dominion.o card.o rngs.o
+	gcc -o runCardTest testSuite/testSuite.c cardtest1.o dominion.o card.o rngs.o -g $(CFLAGS)
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
