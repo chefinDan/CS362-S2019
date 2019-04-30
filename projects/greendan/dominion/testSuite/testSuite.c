@@ -147,26 +147,6 @@ int testDrawCard(struct gameState *pre) {
 	}
 
 	return 0;
-
-	// === Old code from original repo of the game === //
-	// printf ("SIMPLE FIXED TESTS.\n");
-	// for (player = 0; player < 2; player++) {
-	//   for (deckCount = 0; deckCount < 5; deckCount++) {
-	//     for (discardCount = 0; discardCount < 5; discardCount++) {
-	// 			for (handCount = 0; handCount < 5; handCount++) {
-	//   			memset(&G, 23, sizeof(struct gameState));
-	// 			  r = initializeGame(2, kingdomCards, 1, &G);
-	// 			  G.deckCount[player] = deckCount;
-	// 			  memset(G.deck[player], 0, sizeof(int) * deckCount);
-	// 			  G.discardCount[player] = discardCount;
-	// 			  memset(G.discard[player], 0, sizeof(int) * discardCount);
-	// 			  G.handCount[player] = handCount;
-	// 			  memset(G.hand[player], 0, sizeof(int) * handCount);
-	// 			  checkDrawCard(player, &G);
-	// 			}
-	//     }
-	//   }
-	// }
 }
 
 
@@ -217,7 +197,7 @@ int testAdventurerEffect(){
 		}
 	}
 
-	// the treasure in hand should be the amount before playing te adventurer card
+	// the treasure in hand should be the amount before playing the adventurer card
 	// plus two. If not, return -1.
 	if(treasure_cnt_after == treasure_cnt_before + 2) {
 		return 0;
