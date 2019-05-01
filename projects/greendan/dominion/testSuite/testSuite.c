@@ -91,8 +91,11 @@ int testCardEffect(int card){
     case ambassador:
       break;
     case cutpurse:
-			printf("%s\n", "= running: testCutpurseCard() 1000 times =");
-			testCutpurseCard();
+			printf("%s\n", "= running: testCutpurseCard() =");
+			if( testCutpurseCard() < 0 ){
+				fprintf(stderr, "testCutpurseCard failed\nSet CARDTEST3_DEBUG to 1 for debug info\n");
+				return 0;
+			}
       break;
 
     case embargo:

@@ -249,17 +249,18 @@ int playCard(int handPos, int choice1, int choice2, int choice3, struct gameStat
     }
 
   //play card
-  if ( cardEffect(card, choice1, choice2, choice3, state, handPos, &coin_bonus) < 0 )
-    {
-      return -1;
-    }
+  if ( cardEffect(card, choice1, choice2, choice3, state, handPos, &coin_bonus) < 0 ){
+  	return -1;
+  }
 
   //reduce number of actions
   state->numActions--;
 
+
   //update coins (Treasure cards may be added with card draws)
   updateCoins(state->whoseTurn, state, coin_bonus);
 
+	// printf("state->coins: %d\n", state->coins);
   return 0;
 }
 
@@ -724,20 +725,17 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     case mine:
       j = state->hand[currentPlayer][choice1];  //store card we will trash
 
-      if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold)
-	{
-	  return -1;
-	}
+      if (state->hand[currentPlayer][choice1] < copper || state->hand[currentPlayer][choice1] > gold){
+	  		return -1;
+			}
 
-      if (choice2 > treasure_map || choice2 < curse)
-	{
-	  return -1;
-	}
+      if (choice2 > treasure_map || choice2 < curse){
+	  		return -1;
+			}
 
-      if ( (getCost(state->hand[currentPlayer][choice1]) + 3) > getCost(choice2) )
-	{
-	  return -1;
-	}
+      if ( (getCost(state->hand[currentPlayer][choice1]) + 3) > getCost(choice2) ){
+	  		return -1;
+			}
 
       gainCard(choice2, state, 2, currentPlayer);
 
@@ -745,14 +743,12 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       discardCard(handPos, currentPlayer, state, 0);
 
       //discard trashed card
-      for (i = 0; i < state->handCount[currentPlayer]; i++)
-	{
-	  if (state->hand[currentPlayer][i] == j)
-	    {
-	      discardCard(i, currentPlayer, state, 0);
-	      break;
-	    }
-	}
+      for (i = 0; i < state->handCount[currentPlayer]; i++){
+	  		if (state->hand[currentPlayer][i] == j){
+	      	discardCard(i, currentPlayer, state, 0);
+	      	break;
+	    	}
+			}
 
       return 0;
 
@@ -1005,7 +1001,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 
     case cutpurse:
-      updateCoins(currentPlayer, state, 2);
+			*bonus = 2;
+      updateCoins(currentPlayer, state, *bonus);
+
       for (i = 0; i < state->numPlayers; i++){
 	  		if (i != currentPlayer){
 	      	for (j = 0; j < state->handCount[i]; j++){
@@ -1197,21 +1195,17 @@ int updateCoins(int player, struct gameState *state, int bonus)
   state->coins = 0;
 
   //add coins for each Treasure card in player's hand
-  for (i = 0; i < state->handCount[player]; i++)
-    {
-      if (state->hand[player][i] == copper)
-	{
-	  state->coins += 1;
-	}
-      else if (state->hand[player][i] == silver)
-	{
-	  state->coins += 2;
-	}
-      else if (state->hand[player][i] == gold)
-	{
-	  state->coins += 3;
-	}
-    }
+  for (i = 0; i < state->handCount[player]; i++){
+      if (state->hand[player][i] == copper){
+	  		state->coins += 1;
+			}
+      else if (state->hand[player][i] == silver){
+	  		state->coins += 2;
+			}
+      else if (state->hand[player][i] == gold){
+	  		state->coins += 3;
+			}
+  }
 
   //add bonus
   state->coins += bonus;

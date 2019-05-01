@@ -22,7 +22,12 @@
 #define TO_DISCARD 0
 #define TO_DECK 1
 #define TO_HAND 2
+#define COPPER_VALUE 1
+#define SILVER_VALUE 2
+#define GOLD_VALUE 3
 
+
+int countHandCoins(int player, struct gameState *game);
 
 int testDrawCard(struct gameState *pre);
 int testInit(int numPlayers, int *kingdomCards, int randomSeed, struct gameState* G);
