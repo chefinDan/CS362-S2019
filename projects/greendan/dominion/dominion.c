@@ -387,24 +387,20 @@ int isGameOver(struct gameState *state) {
   int j;
 
   //if stack of Province cards is empty, the game ends
-  if (state->supplyCount[province] == 0)
-    {
-      return 1;
-    }
+  if (state->supplyCount[province] == 0){
+  	return 1;
+  }
 
   //if three supply pile are at 0, the game ends
   j = 0;
-  for (i = 0; i < 25; i++)
-    {
-      if (state->supplyCount[i] == 0)
-	{
-	  j++;
-	}
-    }
-  if ( j >= 3)
-    {
-      return 1;
-    }
+  for (i = 0; i < 25; i++){
+  	if(state->supplyCount[i] == 0){
+	  	j++;
+		}
+  }
+  if ( j >= 3){
+  	return 1;
+  }
 
   return 0;
 }
@@ -471,48 +467,41 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state) {
 
   //find highest score
   j = 0;
-  for (i = 0; i < MAX_PLAYERS; i++)
-    {
-      if (players[i] > players[j])
-	{
-	  j = i;
-	}
-    }
+  for (i = 0; i < MAX_PLAYERS; i++){
+  	if (players[i] > players[j]){
+	  	j = i;
+		}
+  }
+
   highScore = players[j];
 
   //add 1 to players who had less turns
   currentPlayer = whoseTurn(state);
-  for (i = 0; i < MAX_PLAYERS; i++)
-    {
-      if ( players[i] == highScore && i > currentPlayer )
-	{
-	  players[i]++;
-	}
-    }
+  for (i = 0; i < MAX_PLAYERS; i++){
+  	if ( players[i] == highScore && i > currentPlayer ){
+	  	players[i]++;
+		}
+  }
 
   //find new highest score
   j = 0;
-  for (i = 0; i < MAX_PLAYERS; i++)
-    {
-      if ( players[i] > players[j] )
-	{
-	  j = i;
-	}
-    }
-  highScore = players[j];
+  for (i = 0; i < MAX_PLAYERS; i++){
+  	if( players[i] > players[j] ){
+	  	j = i;
+		}
+  }
+
+	highScore = players[j];
 
   //set winners in array to 1 and rest to 0
-  for (i = 0; i < MAX_PLAYERS; i++)
-    {
-      if ( players[i] == highScore )
-	{
-	  players[i] = 1;
-	}
-      else
-	{
-	  players[i] = 0;
-	}
-    }
+  for (i = 0; i < MAX_PLAYERS; i++){
+  	if( players[i] == highScore ){
+	  	players[i] = 1;
+		}
+    else{
+	  	players[i] = 0;
+		}
+  }
 
   return 0;
 }
@@ -1070,47 +1059,46 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
     case sea_hag:
       for (i = 0; i < state->numPlayers; i++){
-	if (i != currentPlayer){
-	  state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];			    state->deckCount[i]--;
-	  state->discardCount[i]++;
-	  state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
-	}
+				if (i != currentPlayer){
+	  			state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
+					state->deckCount[i]--;
+	  			state->discardCount[i]++;
+	  			state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
+				}
       }
       return 0;
 
     case treasure_map:
       //search hand for another treasure_map
       index = -1;
-      for (i = 0; i < state->handCount[currentPlayer]; i++)
-	{
-	  if (state->hand[currentPlayer][i] == treasure_map && i != handPos)
-	    {
-	      index = i;
-	      break;
-	    }
-	}
-      if (index > -1)
-	{
-	  //trash both treasure cards
-	  discardCard(handPos, currentPlayer, state, 1);
-	  discardCard(index, currentPlayer, state, 1);
+      for (i = 0; i < state->handCount[currentPlayer]; i++){
+	  		if (state->hand[currentPlayer][i] == treasure_map && i != handPos){
+	      	index = i;
+	      	break;
+	    	}
+			}
+      if (index > -1){
+	  		//trash both treasure cards
+	  		discardCard(handPos, currentPlayer, state, 1);
+	  		discardCard(index, currentPlayer, state, 1);
 
-	  //gain 4 Gold cards
-	  for (i = 0; i < 4; i++)
-	    {
-	      gainCard(gold, state, 1, currentPlayer);
-	    }
+	  		//gain 4 Gold cards
+	  		for (i = 0; i < 4; i++){
+	      	gainCard(gold, state, 1, currentPlayer);
+	    	}
 
-	  //return success
-	  return 1;
-	}
+	  		//return success
+	  		return 1;
+			}
 
       //no second treasure_map found in hand
       return -1;
     }
 
+
   return -1;
 }
+
 
 int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag)
 {

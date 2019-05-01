@@ -8,9 +8,9 @@
 // ========================================================================== //
 
 /* NOTE: in constrcuting this unit test, I found a bug that caused G.coins
-	to not be correctly updated to relfect the two bonus coins gained by playing
+	to not be correctly updated to reflect the two bonus coins gained by playing
 	the cutpurse action card.
-	This bug was fixed.		
+	This bug was fixed.
 */
 
 int testCutpurseCard(){
@@ -37,14 +37,12 @@ int testCutpurseCard(){
 	if(handCard(5, &G) == cutpurse){
 		playCardResult = playCard(5, -1, -1, -1, &G);
 		if(playCardResult < 0){
-			fprintf(stderr, "cardtest3 failure\n");
-			fprintf(stderr, "playCard() failure\n");
+			fprintf(stderr, "cardtest3 failed at playCard()\n");
 			return -1;
 		}
 	}
 	else{
-		fprintf(stderr, "cardtest3 failure\n");
-		fprintf(stderr, "cutpurse not in hand\n");
+		fprintf(stderr, "cardtest3 failed at handCard(), cutpurse not in hand\n");
 		return -1;
 	}
 
@@ -61,7 +59,16 @@ int testCutpurseCard(){
 	return 0;
 
 
-
-
-
 }
+
+int main(int argc, char** argv){
+
+	if(testCutpurseCard() < 0){
+		fprintf (stdout, "==== testCutpurseCard() failed.\nSet CARDTEST3_DEBUG to 1 for debug info\n");
+	}
+	else{
+		printf("%s\n", "All tests PASS");
+	}
+
+	return 0;
+};
