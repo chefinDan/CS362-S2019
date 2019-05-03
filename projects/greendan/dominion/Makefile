@@ -47,33 +47,45 @@ runTestSuite: testSuite/* dominion.o card.o rngs.o
 	echo "cardtest1.c:" >> alltests.log
 	gcc -o cardtest1.out testSuite/cardtest1.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest1.out >> alltests.log
-	gcov dominion.c >> alltests.log
+	gcov -b dominion.c >> alltests.log
 
 	echo "cardtest2.c:" >> alltests.log
 	gcc -o cardtest2.out testSuite/cardtest2.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest2.out >> alltests.log 2>&1
-	gcov dominion.c >> alltests.log
+	gcov -b dominion.c >> alltests.log
 
 	echo "cardtest3.c:" >> alltests.log
 	gcc -o cardtest3.out testSuite/cardtest3.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest3.out >> alltests.log 2>&1
-	gcov dominion.c >> alltests.log;
+	gcov -b dominion.c >> alltests.log;
 
 	echo "cardtest4.c:" >> alltests.log
 	gcc -o cardtest4.out testSuite/cardtest4.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest4.out >> alltests.log 2>&1
-	gcov dominion.c >> alltests.log
+	gcov -b dominion.c >> alltests.log
 
 	echo "\n\nResult for running unit tests:" >> alltests.log
 	echo "unittest1.c:" >> alltests.log
 	gcc -o unittest1.out testSuite/unittest1.c dominion.o card.o rngs.o $(CFLAGS)
 	./unittest1.out >> alltests.log
-	gcov dominion.c >> alltests.log
+	gcov -b dominion.c >> alltests.log
 
 	echo "unittest2.c:" >> alltests.log
 	gcc -o unittest2.out testSuite/unittest2.c dominion.o card.o rngs.o $(CFLAGS)
 	./unittest2.out >> alltests.log
-	gcov dominion.c >> alltests.log
+	gcov -b dominion.c >> alltests.log
+
+	echo "unittest3.c:" >> alltests.log
+	gcc -o unittest3.out testSuite/unittest3.c dominion.o card.o rngs.o $(CFLAGS)
+	./unittest3.out >> alltests.log
+	gcov -b dominion.c >> alltests.log
+
+	echo "unittest4.c:" >> alltests.log
+	gcc -o unittest4.out testSuite/unittest4.c dominion.o card.o rngs.o $(CFLAGS)
+	./unittest4.out >> alltests.log
+	gcov -b dominion.c >> alltests.log
+
+
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)

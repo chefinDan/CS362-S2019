@@ -9,9 +9,11 @@
 // ========================================================================== //
 
 int testDrawCard(struct gameState *pre) {
+  int player, drawResult;
   struct gameState post;
-	int player, drawResult;
-	int testPass = 1;
+
+  int testPass = 1;
+  memset(&post, '\0', sizeof(struct gameState));
 
 	// Run testDrawCard() MAX_CYCLES times
 	for (int i = 0; i < MAX_CYCLES; i++) {

@@ -11,29 +11,55 @@
 
 // Test Description
 // ========================================================================== //
+// ===                              testSeahagCard                        === //
 // ===	This test will check for the correct number of cards in the				=== //
 // === players discard pile, and check for a curse card on the top of     === //
 // === their deck.																												=== //
 // ========================================================================== //
 
 int testSeahagCard(){
+  int handCntBefore,
+      handCntAfter,
+      deckCntBefore,
+      deckCntAfter,
+      playCardResult,
+      deckCntBefore_p2,
+      deckCntAfter_p2,
+			foundCurse,
+      treasure_cnt_before,
+      treasure_cnt_after,
+      tmp_card;
 
 	struct gameState G;
 	int numPlayers = 2;
 	int player1 = 0;
 	int player2 = 1;
 	int testPass = 1;
-	int handCntBefore, handCntAfter, deckCntBefore, deckCntAfter, playCardResult, deckCntBefore_p2, deckCntAfter_p2,
-			foundCurse;
 	int randomSeed = ((int)(Random()*MAX_HAND))%1000;
-	int treasure_cnt_before, treasure_cnt_after, tmp_card;
 
-	int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
-				 remodel, smithy, sea_hag, cutpurse, great_hall};
+	int kingdomCards[10] = { adventurer,
+                           council_room,
+                           feast,
+                           gardens,
+                           mine,
+                           remodel,
+                           smithy,
+                           sea_hag,
+                           cutpurse,
+                           great_hall
+  };
 
-	initializeGame(numPlayers, kingdomCards, randomSeed, &G);
+	initializeGame(numPlayers,
+                 kingdomCards,
+                 randomSeed,
+                 &G
+  );
 
-	gainCard(sea_hag, &G, TO_HAND, player1);
+	gainCard(sea_hag,
+           &G,
+           TO_HAND,
+           player1
+  );
 
 	if(handCard(5, &G) == sea_hag){
 		playCardResult = playCard(5, -1, -1, -1, &G);

@@ -1,6 +1,7 @@
 #include "testSuite.h"
 
 // ========================================================================== //
+// ===                    testCutpurseCard                                === //
 // === This unit test checks for correct functioning of cutpurseEffect(). === //
 // === It checks for the correct number of cards after playing the card   === //
 // === as well as the correct number of cards in the deck and discard 		=== //
@@ -14,19 +15,45 @@
 */
 
 int testCutpurseCard(){
-	struct gameState G;
+  int handCntBefore,
+      handCntAfter,
+      deckCntBefore,
+      deckCntAfter,
+      playCardResult,
+      coinCntBefore,
+      coinCntAfter,
+      treasure_cnt_before,
+      treasure_cnt_after,
+      tmp_card;
+
+  struct gameState G;
 	int numPlayers = 2;
 	int player1 = 0;
-	int handCntBefore, handCntAfter, deckCntBefore, deckCntAfter, playCardResult, coinCntBefore, coinCntAfter;
 	int randomSeed = ((int)(Random()*MAX_HAND))%1000;
-	int treasure_cnt_before, treasure_cnt_after, tmp_card;
 
-	int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
-				 remodel, smithy, village, cutpurse, great_hall};
+	int kingdomCards[10] = { adventurer,
+                           council_room,
+                           feast,
+                           gardens,
+                           mine,
+                           remodel,
+                           smithy,
+                           village,
+                           cutpurse,
+                           great_hall
+  };
 
-	initializeGame(numPlayers, kingdomCards, randomSeed, &G);
+	initializeGame(numPlayers,
+                 kingdomCards,
+                 randomSeed,
+                 &G
+  );
 
-	gainCard(cutpurse, &G, TO_HAND, player1);
+	gainCard(cutpurse,
+           &G,
+           TO_HAND,
+           player1
+  );
 
 	coinCntBefore = G.coins;
 	if(CARDTEST3_DEBUG){

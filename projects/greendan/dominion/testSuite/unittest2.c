@@ -108,7 +108,6 @@ int testgetCost(){
 	}
 
 	return 0;
-
 }
 
 

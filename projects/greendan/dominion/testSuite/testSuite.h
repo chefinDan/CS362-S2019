@@ -67,7 +67,6 @@
 
 int countHandCoins(int player, struct gameState *game);
 
-int testDrawCard(struct gameState *pre);
 int testInit(int numPlayers, int *kingdomCards, int randomSeed, struct gameState* G);
 int testShuffle(int *kingdomCards, int randomSeed);
 int testSupply();
@@ -76,5 +75,7 @@ int testAdventurerCard();
 int testSmithyCard();
 int testCutpurseCard();
 int testSeahagCard();
+int testDrawCard(struct gameState *pre);
+int testgetCost();
 
 #endif

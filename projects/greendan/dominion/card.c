@@ -50,7 +50,7 @@ int council_roomEffect(struct gameState *state, int currentPlayer, int handPos){
 		drawCard(currentPlayer, state);
 	}
 
-	//+1 Buy
+	//+1 Buy       *******BUG********
 	// state->numBuys++;
 
 	//Each other player draws a card
@@ -84,7 +84,7 @@ int villageEffect(int currentPlayer, struct gameState *state, int handPos){
 	//+1 Card
 	drawCard(currentPlayer, state);
 
-	//+2 Actions
+	//+2 Actions        ******* BUG ***********
 	state->numActions = state->numActions + 1;
 
 	//discard played card from hand

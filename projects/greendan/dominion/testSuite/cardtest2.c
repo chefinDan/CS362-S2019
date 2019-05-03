@@ -1,6 +1,7 @@
 #include "testSuite.h"
 
 // ========================================================================== //
+// ===                        testSmithyCard                              === //
 // === This unit test checks for correct functioning of smithyEffect(). 	=== //
 // === It checks for the correct number of cards after playing the card   === //
 // === as well as the correct number of cards in the deck and discard 		=== //
@@ -13,27 +14,53 @@
 */
 
 int testSmithyCard(){
+  int handCntBefore,
+      handCntAfter,
+      deckCntBefore,
+      deckCntAfter,
+      playCardResult,
+      V_cardCntBefore,
+      V_cardCntAfter,
+      treasure_cnt_before,
+      treasure_cnt_after,
+      tmp_card;
+
 	struct gameState G;
 	int testPass = 1;
 	int numPlayers = 2;
 	int player = 0;
-	int handCntBefore, handCntAfter, deckCntBefore, deckCntAfter, playCardResult,
-			V_cardCntBefore, V_cardCntAfter;
 	int randomSeed = ((int)(Random()*MAX_HAND))%1000;
-	int treasure_cnt_before, treasure_cnt_after, tmp_card;
 
-	int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
-				 remodel, smithy, village, baron, great_hall};
+	int kingdomCards[10] = { adventurer,
+                           council_room,
+                           feast,
+                           gardens,
+                           mine,
+                           remodel,
+                           smithy,
+                           village,
+                           baron,
+                           great_hall
+  };
 
-	initializeGame(numPlayers, kingdomCards, randomSeed, &G);
-
+	initializeGame(numPlayers,
+                 kingdomCards,
+                 randomSeed,
+                 &G
+  );
 
 	// put smithy card in players hand, now the 6th card, position 5
-	gainCard(smithy, &G, TO_HAND, player);
+	gainCard(smithy,
+           &G,
+           TO_HAND,
+           player
+  );
 
 	handCntBefore = numHandCards(&G);
 	deckCntBefore = G.deckCount[player];
-	V_cardCntBefore = G.supplyCount[estate] + G.supplyCount[duchy] + G.supplyCount[province];
+	V_cardCntBefore = G.supplyCount[estate] +
+                    G.supplyCount[duchy] +
+                    G.supplyCount[province];
 
 	if(handCard(5, &G) == smithy){
 		playCardResult = playCard(5, 0, 0, 0, &G);
@@ -49,8 +76,9 @@ int testSmithyCard(){
 
 	handCntAfter = numHandCards(&G);
 	deckCntAfter = G.deckCount[player];
-	V_cardCntAfter = G.supplyCount[estate] + G.supplyCount[duchy] + G.supplyCount[province];
-
+	V_cardCntAfter = G.supplyCount[estate] +
+                   G.supplyCount[duchy] +
+                   G.supplyCount[province];
 
 	//Smithy adds 3 cards to hand, and discards smithy card. Leaving the player with net plus 2 cards.
 	if(CARDTEST2_DEBUG){
@@ -81,7 +109,6 @@ int testSmithyCard(){
 		fprintf(stderr, "*** cardtest2 failied at V_cardCnt, number of victory cards in supply has chnaged.\n");
 		testPass = 0;
 	}
-
 
 	if(testPass == 1){
 		return 0;

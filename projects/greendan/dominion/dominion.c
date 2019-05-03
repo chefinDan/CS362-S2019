@@ -67,32 +67,27 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   /////////////////////////
 
   //set number of Curse cards
-  if (numPlayers == 2)
-    {
-      state->supplyCount[curse] = 10;
-    }
-  else if (numPlayers == 3)
-    {
-      state->supplyCount[curse] = 20;
-    }
-  else
-    {
-      state->supplyCount[curse] = 30;
-    }
+  if (numPlayers == 2){
+    state->supplyCount[curse] = 10;
+  }
+  else if (numPlayers == 3){
+    state->supplyCount[curse] = 20;
+  }
+  else{
+    state->supplyCount[curse] = 30;
+  }
 
   //set number of Victory cards
-  if (numPlayers == 2)
-    {
-      state->supplyCount[estate] = 8;
-      state->supplyCount[duchy] = 8;
-      state->supplyCount[province] = 8;
-    }
-  else
-    {
-      state->supplyCount[estate] = 12;
-      state->supplyCount[duchy] = 12;
-      state->supplyCount[province] = 12;
-    }
+  if (numPlayers == 2){
+    state->supplyCount[estate] = 8;
+    state->supplyCount[duchy] = 8;
+    state->supplyCount[province] = 8;
+  }
+  else{
+    state->supplyCount[estate] = 12;
+    state->supplyCount[duchy] = 12;
+    state->supplyCount[province] = 12;
+  }
 
   //set number of Treasure cards
   state->supplyCount[copper] = 60 - (7 * numPlayers);
