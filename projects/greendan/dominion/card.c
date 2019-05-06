@@ -146,7 +146,7 @@ int cutpurseEffect(int* bonus, int currentPlayer, struct gameState* state, int h
 }
 
 
-int testSeaHagEffect(struct gameState* state, int currentPlayer){
+int seaHagEffect(struct gameState* state, int currentPlayer){
   int i;
 
   for (i = 0; i < state->numPlayers; i++){

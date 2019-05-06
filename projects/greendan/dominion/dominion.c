@@ -1030,7 +1030,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 
     case sea_hag:
-      testSeaHagEffect(state, currentPlayer);
+      seaHagEffect(state, currentPlayer);
       return 0;
 
     case treasure_map:

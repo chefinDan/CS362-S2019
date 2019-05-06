@@ -10,7 +10,7 @@ int smithyEffect(int handPos, int currentPlayer, struct gameState *state);
 int villageEffect(int currentPlayer, struct gameState *state, int handPos);
 int stewardEffect(int currentPlayer, struct gameState *state, int choice1, int choice2, int choice3, int handPos);
 int cutpurseEffect(int* bonus, int currentPlayer, struct gameState* state, int handPos);
-int testSeaHagEffect(struct gameState* state, int currentPlayer);
+int seaHagEffect(struct gameState* state, int currentPlayer);
 
 
 #endif
