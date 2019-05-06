@@ -65,12 +65,12 @@ int testSmithyCard(){
 	if(handCard(5, &G) == smithy){
 		playCardResult = playCard(5, 0, 0, 0, &G);
 		if(playCardResult < 0){
-			fprintf(stderr, "cardtest2 failed at playCard()\n");
+			fprintf(stdout, "cardtest2 failed at playCard()\n");
 			testPass = 0;
 		}
 	}
 	else{
-		fprintf(stderr, "cardtest2 failed at handCard(), smithy not in hand\n");
+		fprintf(stdout, "cardtest2 failed at handCard(), smithy not in hand\n");
 		testPass = 0;
 	}
 
@@ -87,7 +87,7 @@ int testSmithyCard(){
 		printf("== inside testSmithyCard(): expected handCntAfter: %d\n", handCntBefore +2);
 	}
 	if(handCntAfter != handCntBefore +2){
-		fprintf(stderr, "*** cardtest2 failed at handCnt, incorrect num of cards in players hand\n");
+		fprintf(stdout, "*** cardtest2 failed at handCnt, incorrect num of cards in players hand\n");
 		testPass = 0;
 	}
 
@@ -97,7 +97,7 @@ int testSmithyCard(){
 		printf("== inside testSmithyCard(): expected deckCntAfter: %d\n", deckCntBefore -3);
 	}
 	if(deckCntBefore != deckCntAfter +3){
-		fprintf(stderr, "*** cardtest2 failed at deckCnt, incorrect num of cards in players deck\n");
+		fprintf(stdout, "*** cardtest2 failed at deckCnt, incorrect num of cards in players deck\n");
 		testPass = 0;
 	}
 
@@ -106,7 +106,7 @@ int testSmithyCard(){
 		printf("== inside testSmithyCard():V_cardCntAfter: %d\n", V_cardCntAfter);
 	}
 	if(V_cardCntBefore != V_cardCntAfter){
-		fprintf(stderr, "*** cardtest2 failied at V_cardCnt, number of victory cards in supply has chnaged.\n");
+		fprintf(stdout, "*** cardtest2 failied at V_cardCnt, number of victory cards in supply has chnaged.\n");
 		testPass = 0;
 	}
 

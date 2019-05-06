@@ -3,14 +3,14 @@
 // ========================================================================== //
 // === This unit test check for the following:
 // === A. Positive tests
-// ===  1. The person who played village gains 1 card to their hand.
-// ===  2. The person who played the village earns 2 extra actions.
-// ===  3. Player one's buys have not changed
-// ===  4. Other players hands do not change
-// ===  5. The supply cards are unchanged
-// ===  6. Skipping the buy phase, victory points have not changed.
-// ===  7. Player 1 deck has 1 less cards
-// ===  8. Other players' deck's have not changed
+  // ===  1. The person who played village gains 1 card to their hand.
+  // ===  2. The person who played the village earns 2 extra actions.
+  // ===  3. Player one's buys have not changed
+  // ===  4. Other players hands do not change
+  // ===  5. The supply cards are unchanged
+  // ===  6. Skipping the buy phase, victory points have not changed.
+  // ===  7. Player 1 deck has 1 less cards
+  // ===  8. Other players' deck's have not changed
 
 // ========================================================================== //
 // ===                          testVillageffect                          === //

@@ -94,7 +94,7 @@ int testCouncil_roomEffect(){
   p3Score = scoreFor(p3, G);
 
   // Count all cards in supply
-  totalSupplyCnt = 0;
+  totalSupplyCntBefore = 0;
   for(int card = curse; card <= treasure_map; card++){
     totalSupplyCntBefore += supplyCount(card, G);
   }
@@ -123,7 +123,7 @@ int testCouncil_roomEffect(){
   /****** Test A.2 ******/
   // This will fail due to bug introduced in assignment 2
   if(G->numBuys != p1BuysBefore + p1GainBuys){
-    fprintf(stdout, "*** unittest3 failed @ A.2, player did nnot gain correct number of buys\n");
+    fprintf(stdout, "*** unittest3 failed @ A.2, player did not gain correct number of buys\n");
     testPass = 0;
   }
 
@@ -144,6 +144,10 @@ int testCouncil_roomEffect(){
   if(totalSupplyCntAfter != totalSupplyCntBefore){
     fprintf(stdout, "*** unittest3 failed @ A.4, supply card count was al1tered\n");
     testPass = 0;
+  }
+  if(UNITTEST3_DEBUG){
+    printf("totalSupplyCntAfter: %d\n", totalSupplyCntAfter);
+    printf("totalSupplyCntBefore: %d\n", totalSupplyCntBefore);
   }
 
   /****** Test A.5 ******/

@@ -2,7 +2,7 @@
 // ========================================================================== //
 // === 												testAdventurerEffect()											=== //
 // ===	This function tests the adventureCardEffect function. It returns -1 = //
-// ===	if the test failed, else it returns 0. 														=== //																					=== //
+// ===	if the test failed, else it returns 0. 														=== //
 // ========================================================================== //
 
 int testAdventurerCard(){

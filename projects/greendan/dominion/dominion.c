@@ -138,6 +138,7 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
 		for(int k = 10; k < MAX_DECK; k++){
 			state->deck[i][k] = 0;
 		}
+
   }
 
 
@@ -985,30 +986,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       return 0;
 
     case cutpurse:
-			*bonus = 2;
-      updateCoins(currentPlayer, state, *bonus);
-
-      for (i = 0; i < state->numPlayers; i++){
-	  		if (i != currentPlayer){
-	      	for (j = 0; j < state->handCount[i]; j++){
-		  			if (state->hand[i][j] == copper){
-		      		discardCard(j, i, state, 0);
-		      		break;
-		    		}
-		  			if (j == state->handCount[i]){
-		      		for(k = 0; k < state->handCount[i]; k++){
-			  				if (DEBUG)
-			    				printf("Player %d reveals card number %d\n", i, state->hand[i][k]);
-							}
-		      		break;
-		    		}
-					}
-	    	}
-			}
-
-      //discard played card from hand
-      discardCard(handPos, currentPlayer, state, 0);
-
+			cutpurseEffect(bonus, currentPlayer, state, handPos);
       return 0;
 
     case embargo:
@@ -1040,27 +1018,19 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
       //+1 buy
       state->numBuys++;
 
-      if (choice1)
-	{
-	  //gain coins equal to trashed card
-	  state->coins = state->coins + getCost( handCard(choice1, state) );
-	  //trash card
-	  discardCard(choice1, currentPlayer, state, 1);
-	}
+      if (choice1){
+	       //gain coins equal to trashed card
+	        state->coins = state->coins + getCost( handCard(choice1, state) );
+	         //trash card
+	          discardCard(choice1, currentPlayer, state, 1);
+	    }
 
       //discard card
       discardCard(handPos, currentPlayer, state, 0);
       return 0;
 
     case sea_hag:
-      for (i = 0; i < state->numPlayers; i++){
-				if (i != currentPlayer){
-	  			state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]--];
-					state->deckCount[i]--;
-	  			state->discardCount[i]++;
-	  			state->deck[i][state->deckCount[i]--] = curse;//Top card now a curse
-				}
-      }
+      testSeaHagEffect(state, currentPlayer);
       return 0;
 
     case treasure_map:

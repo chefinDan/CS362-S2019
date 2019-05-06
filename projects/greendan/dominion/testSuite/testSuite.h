@@ -23,7 +23,7 @@
 #define UNITTEST4_DEBUG 0
 
 #define NOISY_TEST 1
-#define MAX_CYCLES 10
+#define MAX_CYCLES 1000
 #define TO_DISCARD 0
 #define TO_DECK 1
 #define TO_HAND 2

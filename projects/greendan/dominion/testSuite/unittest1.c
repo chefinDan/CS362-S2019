@@ -9,8 +9,12 @@
 // ========================================================================== //
 
 int testDrawCard(struct gameState *pre) {
-  int player, drawResult;
+  int player,
+      drawResult,
+      deckCard,
+      handCard;
   struct gameState post;
+  int numPlayers = 2;
 
   int testPass = 1;
   memset(&post, '\0', sizeof(struct gameState));
@@ -24,6 +28,7 @@ int testDrawCard(struct gameState *pre) {
 
 		//copy gameState post to mem location of local gameState pre
 	  assert( memcpy(&post, pre, sizeof(struct gameState)) );
+    deckCard = pre->deck[player][pre->deckCount[player]];
 
 		if(UNITTEST1_DEBUG){
 			printf ("drawCard PRE: player: %d, HC: %d, DeC: %d, DiC: %d\n",
@@ -31,7 +36,10 @@ int testDrawCard(struct gameState *pre) {
 		}
 
 		drawResult = drawCard (player, &post);
-		if(drawResult != 0){
+
+
+    if(drawResult != 0){
+      fprintf(stderr, "*** unittest1 failed, drawCard returned non-zero\n");
 			testPass = 0;
 		}
 
@@ -46,9 +54,25 @@ int testDrawCard(struct gameState *pre) {
 			printf ("drawCard POST: player %d, HC: %d\n", player, post.handCount[player]);
 		}
 		if(post.handCount[player] != (pre->handCount[player] + 1)){
-			fprintf(stderr, "*** unittest1 failed at handCount incriment after drawCard()\n");
+			fprintf(stdout, "*** unittest1 failed at handCount incriment after drawCard()\n");
 			testPass = 0;
 		}
+
+    // check that the deck count was decrimented, only of the previous deck count was not zero.
+    if(post.deckCount[player] != (pre->deckCount[player] -1)){
+      if(pre->deckCount[player] != 0){
+        fprintf(stdout, "*** unittest1 failed at deck count decriment after drawCard()\n");
+        testPass = 0;
+      }
+    }
+
+    // check that drawn card matches the top card on the prestate deck
+    handCard = post.deck[player][post.deckCount[player]];
+    if(handCard != deckCard){
+      fprintf(stdout, "*** unittest1 failed at handCard/deckCard comparison, cards do not match after drawCard()\n");
+			testPass = 0;
+    }
+
 	}
 
 	if(testPass == 1){

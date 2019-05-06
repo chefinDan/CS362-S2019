@@ -17,6 +17,9 @@
 // === their deck.																												=== //
 // ========================================================================== //
 
+// This test revealed a bug in the sea_hag effect function that incorrectly
+// decrimneted the other players deck counts more than necessary
+
 int testSeahagCard(){
   int handCntBefore,
       handCntAfter,
@@ -25,6 +28,7 @@ int testSeahagCard(){
       playCardResult,
       deckCntBefore_p2,
       deckCntAfter_p2,
+      p2ScoreBefore,
 			foundCurse,
       treasure_cnt_before,
       treasure_cnt_after,
@@ -61,32 +65,79 @@ int testSeahagCard(){
            player1
   );
 
+  deckCntBefore_p2 = G.deckCount[player2];
+  if(CARDTEST4_DEBUG){
+    printf("player 2 deck cnt before: %d\n", deckCntBefore_p2);
+    printf("player 2 hand cnt before: %d\n", G.handCount[player2]);
+  }
+
+  p2ScoreBefore = scoreFor(player2, &G);
+  if(CARDTEST4_DEBUG){
+    printf("player 2 score before player 1 playing sea_hag: %d\n", p2ScoreBefore);
+  }
+
+  // test for sea-hag card in player1 hand, and play it
 	if(handCard(5, &G) == sea_hag){
 		playCardResult = playCard(5, -1, -1, -1, &G);
 		if(playCardResult < 0){
-			fprintf(stderr, "*** cardtest4 failed at function playCard\n");
+			fprintf(stdout, "*** cardtest4 failed at function playCard\n");
 			testPass = 0;
 		}
 	}
 	else{
-		fprintf(stderr, "*** cardtest4 failed at handCard(), sea_hag not in hand\n");
+		fprintf(stdout, "*** cardtest4 failed at handCard(), sea_hag not in hand\n");
+		testPass = 0;
+	}
+
+  if(CARDTEST4_DEBUG){
+    printf("player 2 deck cnt after: %d\n", G.deckCount[player2]);
+  }
+
+  if(deckCntBefore_p2 != G.deckCount[player2]){
+    fprintf(stdout, "*** cardtest4 failed at player 2 deck count, player 2 deck count has changed\n");
+		testPass = 0;
+  }
+
+  // Check player two's deck for presense of curse card
+  foundCurse = 0;
+	for(int i = 0; i < G.deckCount[player2]; i++){
+		if(G.deck[player2][i] == curse){
+			foundCurse = 1;
+			break;
+		}
+	}
+  if(foundCurse == 0){
+		fprintf(stdout, "*** cardtest4 failed at finding curse card in player twos's deck\n");
 		testPass = 0;
 	}
 
 	endTurn(&G);
 
+  if(CARDTEST4_DEBUG){
+    printf("player 2 hand cnt after: %d\n", G.handCount[player2]);
+    printf("player 2 deck cnt after drawing: %d\n", G.deckCount[player2]);
+  }
+
 	foundCurse = 0;
-	for(int i = 0; i < numHandCards(&G); i++){
-		if(handCard(i, &G) == curse){
+	for(int i = 0; i < G.handCount[player2]; i++){
+		if(G.hand[player2][i] == curse){
 			foundCurse = 1;
 			break;
 		}
 	}
 
 	if(foundCurse == 0){
-		fprintf(stderr, "*** cardtest4 failed at finding curse card in other players hand\n");
+		fprintf(stdout, "*** cardtest4 failed at finding curse card in other players hand\n");
 		testPass = 0;
 	}
+
+  if(scoreFor(player2, &G) != p2ScoreBefore -1){
+    fprintf(stdout, "*** cardtest4 failed at decreasing player two's score by one due to curse card.\n");
+		testPass = 0;
+  }
+  if(CARDTEST4_DEBUG){
+    printf("scoreFor(player2, &G): %d\n", scoreFor(player2, &G));
+  }
 
 	if(testPass == 1){
 		return 0;

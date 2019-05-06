@@ -116,3 +116,48 @@ int stewardEffect(int currentPlayer, struct gameState* state, int choice1, int c
 	discardCard(choice3, currentPlayer, state, 1);
 	return 0;
 }
+
+int cutpurseEffect(int* bonus, int currentPlayer, struct gameState* state, int handPos){
+  int i, j, k;
+
+  *bonus = 2;
+  updateCoins(currentPlayer, state, *bonus);
+
+  for (i = 0; i < state->numPlayers; i++){
+		if (i != currentPlayer){
+    	for (j = 0; j < state->handCount[i]; j++){
+  			if (state->hand[i][j] == copper){
+      		discardCard(j, i, state, 0);
+      		break;
+    		}
+  			if (j == state->handCount[i]){
+      		for(k = 0; k < state->handCount[i]; k++){
+	  				if (DEBUG)
+	    				printf("Player %d reveals card number %d\n", i, state->hand[i][k]);
+					}
+      		break;
+    		}
+			}
+  	}
+	}
+
+  //discard played card from hand
+  discardCard(handPos, currentPlayer, state, 0);
+}
+
+
+int testSeaHagEffect(struct gameState* state, int currentPlayer){
+  int i;
+
+  for (i = 0; i < state->numPlayers; i++){
+    if (i != currentPlayer){
+      state->discard[i][state->discardCount[i]] = state->deck[i][state->deckCount[i]];
+      state->deckCount[i]--;
+      state->discardCount[i]++;
+      state->deck[i][state->deckCount[i]] = curse;//Top card now a curse
+      state->deckCount[i]++;
+    }
+  }
+
+  return 0;
+}
