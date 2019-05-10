@@ -78,4 +78,6 @@ int testSeahagCard();
 int testDrawCard(struct gameState *pre);
 int testgetCost();
 
+int randomTestDrawCard();
+
 #endif

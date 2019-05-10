@@ -104,7 +104,10 @@ unittestresults: testSuite/* dominion.o card.o rngs.o
 	./unittest4.out >> unittestresults.out
 	gcov -b dominion.c >> unittestresults.out
 
-
+runRandomTest: testSuite/* dominion.o card.o rngs.o
+	gcc -o rand.out testSuite/randomtests.c dominion.o card.o rngs.o $(CFLAGS)
+	./rand.out
+	gcov -bf dominion.c >> randtests.log
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
