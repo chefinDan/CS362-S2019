@@ -127,20 +127,17 @@ int initializeGame(int numPlayers, int kingdomCards[10], int randomSeed,
   //supply intilization complete
 
   //set player decks
-  for (i = 0; i < numPlayers; i++)
-    {
+   for (i = 0; i < numPlayers; i++){
       state->deckCount[i] = 0;
-      for (j = 0; j < 3; j++)
-	{
-	  state->deck[i][j] = estate;
-	  state->deckCount[i]++;
-	}
-      for (j = 3; j < 10; j++)
-	{
-	  state->deck[i][j] = copper;
-	  state->deckCount[i]++;
-	}
-    }
+      for (j = 0; j < 3; j++){
+         state->deck[i][j] = estate;
+         state->deckCount[i]++;
+      }
+      for (j = 3; j < 10; j++){
+         state->deck[i][j] = copper;
+         state->deckCount[i]++;
+      }
+   }
 
   //shuffle player decks
   for (i = 0; i < numPlayers; i++)

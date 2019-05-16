@@ -1,6 +1,6 @@
-CFLAGS= -Wall -fpic -coverage -lm -std=c99
 ODIR=obj
 TESTDIR=testSuite
+CFLAGS= -I $(TESTDIR) -Wall -lm -coverage -std=c99
 
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
@@ -17,8 +17,8 @@ playdom: dominion.o playdom.c
 # testDrawCard: testDrawCard.c dominion.o rngs.o
 	# gcc -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 
-test_main: unit_tests/test_main.c unit_tests/unit_tests.c dominion.o rngs.o
-	gcc -o test_main -g unit_tests/test_main.c unit_tests/unit_tests.c dominion.o rngs.o $(CFLAGS)
+# test_main: unit_tests/test_main.c unit_tests/unit_tests.c dominion.o card.o rngs.o
+# 	gcc -o test_main -g unit_tests/test_main.c unit_tests/unit_tests.c dominion.o card.o rngs.o $(CFLAGS)
 
 # badTestDrawCard: badTestDrawCard.c dominion.o rngs.o
 	# gcc -o badTestDrawCard -g  badTestDrawCard.c dominion.o rngs.o $(CFLAGS)
@@ -26,8 +26,10 @@ test_main: unit_tests/test_main.c unit_tests/unit_tests.c dominion.o rngs.o
 # testBuyCard: testDrawCard.c dominion.o rngs.o
 	# gcc -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 
-buildTestSuite: testSuite/testSuite.c dominion.o rngs.o
-	gcc -o testSuite/runTests testSuite/testSuite.c dominion.o rngs.o -g $(CFLAGS)
+randomtestreults: testSuite/randTestsDriver.c testSuite/randomtestadventurer.c dominion.o card.o rngs.o
+	gcc -g testSuite/randTestsDriver.c testSuite/randomtestadventurer.c dominion.o card.o rngs.o $(CFLAGS)
+	./a.out > randomtestreults.out
+	gcov -lbf card.c >> randomtestreults.out
 
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)

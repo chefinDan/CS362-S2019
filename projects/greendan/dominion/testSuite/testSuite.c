@@ -10,7 +10,7 @@ int main(int argc, char** argv){
 	struct gameState G;
 	// enum CARD;
 
-	int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
+int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
 				 remodel, smithy, village, baron, great_hall};
 
 	testCardEffect(adventurer, &G);
@@ -18,8 +18,7 @@ int main(int argc, char** argv){
 	testDrawCard(&G);
 
 
-
-	printf ("ALL TESTS COMPLETE\n");
+  printf ("ALL TESTS COMPLETE\n");
 
 	exit(0);
 };
