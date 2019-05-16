@@ -15,13 +15,13 @@ int compare(const void* a, const void* b) {
 }
 
 struct gameState* newGame() {
-  struct gameState* g = malloc(sizeof(struct gameState));
+  struct gameState* g = (struct gameState*)malloc(sizeof(struct gameState));
   return g;
 }
 
 int* kingdomCards(int k1, int k2, int k3, int k4, int k5, int k6, int k7,
 		  int k8, int k9, int k10) {
-  int* k = malloc(10 * sizeof(int));
+  int* k = (int*)malloc(10 * sizeof(int));
   k[0] = k1;
   k[1] = k2;
   k[2] = k3;

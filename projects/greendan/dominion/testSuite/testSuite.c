@@ -1,34 +1,83 @@
 #include "testSuite.h"
 
+// ========================================================================== //
+// ***                        printData()                                     //
+// Description: Prints useful debug information from struct gameState         //
+// Param: struct gameState* <pre> - The gameState before a card was played    //
+//         struct gameState* <post> - The gameState after a card was played   //
+//         unsigned player - The player whose data will be printed            //
+// ========================================================================== //
+int printData(struct gameState* preState, struct gameState* postState, unsigned player) {
+   unsigned treasureCnt;
+
+   // count all treasure
+   treasureCnt = fullDeckCount(player, copper, preState) +
+                  fullDeckCount(player, silver, preState) +
+                  fullDeckCount(player, gold, preState);
+
+   printf("preState->handCount[%u]: %u\n", player, preState->handCount[player]);
+   printf("postState.handCount[%u]: %u\n", player, postState->handCount[player]);
+   printf("preState->deckCount[%u]: %u\n", player, preState->deckCount[player]);
+   printf("postState->deckCount[%u]: %u\n", player, postState->deckCount[player]);
+   printf("preState treasureCnt: %u\n", treasureCnt);
+   return 0;
+}
+
 
 // ========================================================================== //
-// ===				main driver for testsuite functions 												=== //
+// ***                  buildKingdomCards()                               *** //
+// Description: Makes a deck of random cards for testing purposes. Will       //
+// always inlcude int <required> and and all victory cards/treasure cards     //
+// Params: int* <cards> - The array that random cards will be added to.       //
+//         int <required> - The card enum that must be included in the deck   //
 // ========================================================================== //
-int main(int argc, char** argv){
+int buildKingdomCards(int* cards, int required) {
+   unsigned it, n, act_min, act_max;
+   act_min = 7;
+   act_max = 26;
+   // Generate 10 random kingdomCards, only choosing from action cards
+   for(it = 0; it < 10; ++it){
+      cards[it] = (int)floor(Random() * 26) %(act_max+1-act_min) + act_min;
+   }
 
-	int i, n, r, numPlayers, drawResult, player, deckCount, discardCount, handCount;
-	struct gameState G;
-	// enum CARD;
+   // Check for required card
+   for(it = 0, n = 0; it < 10; ++it){
+      if(cards[it] == required){
+         n = 1; break;
+      }
+   }
 
-int kingdomCards[10] = {adventurer, council_room, feast, gardens, mine,
-				 remodel, smithy, village, baron, great_hall};
+   // if required not already added, add it now.
+   if(!n){ cards[9] = required; }
 
-	testCardEffect(adventurer, &G);
+   // add victory point cards to cards array
+   for(it = 10, n = estate; it < 13; ++it, ++n){
+      cards[it] = n;
+   }
 
-	testDrawCard(&G);
+   // add treasure cards
+   for(it = 13, n = copper; it < 16; ++it, ++n){
+      cards[it] = n;
+   }
 
+   // if building the kingdomCards failed, then stop everything
+   for(it = 0; it < 16; ++it){
+      if(cards[it] < curse || cards[it] > treasure_map){
+         printf("%s\n", "buildKingdomCards failed");
+         printf("cards[%u]: %d\n", it, cards[it]);
+         return 1;
+      }
+   }
 
-  printf ("ALL TESTS COMPLETE\n");
-
-	exit(0);
-};
+   return 0;
+}
 
 
 // ========================================================================== //
-// === 												testCardEffect()														=== //
-// ===	This function takes a card to test and a gameState struct as			=== //
-// === 	params. Using a switch statement It calls the corresponding test 	=== //
-// ===	function for the card param. 																			=== //
+// === 												testCardEffect()					  === //
+// ===   This function takes a card to test and a gameState struct as	  === //
+// ===   params. Using a switch statement It calls the corresponding test === //
+// ===   function for the card param.                                     === //
 // ========================================================================== //
 
 int testCardEffect(int card, struct gameState *G){
@@ -97,6 +146,8 @@ int testCardEffect(int card, struct gameState *G){
 
 	};
 
+   return 0;
+
 }
 
 
@@ -110,7 +161,7 @@ int testCardEffect(int card, struct gameState *G){
 
 int testDrawCard(struct gameState *pre) {
   struct gameState post;
-	int r, player, drawResult;
+	int r, player;
 
 	printf("%s\n", "= running: testDrawCard() =");
 	// Run testDrawCard() MAX_CYCLES times
@@ -211,10 +262,6 @@ int testInit(int numPlayers, int *kingdomCards, int randomSeed, struct gameState
 
   // struct gameState G;
 
-  int i;
-
-  int start = -1;
-
   // int k[10] = {adventurer, gardens, embargo, village, minion, mine, cutpurse,
 	       // sea_hag, tribute, smithy};
 
@@ -282,6 +329,8 @@ int testShuffle(int *kingdomCards, int randomSeed) {
     assert (ret == -1);
 
   assert(memcmp(&G, &G2, sizeof(struct gameState)) == 0);
+
+  return 0;
 
 };
 

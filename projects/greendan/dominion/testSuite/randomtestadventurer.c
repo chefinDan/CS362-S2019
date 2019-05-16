@@ -1,80 +1,6 @@
 #include "testSuite.h"
 
 
-// ========================================================================== //
-// ***                        printData()                                     //
-// Description: Prints useful debug information from struct gameState         //
-// Param: struct gameState* <pre> - The gameState before a card was played    //
-//         struct gameState* <post> - The gameState after a card was played   //
-//         unsigned player - The player whose data will be printed            //
-// ========================================================================== //
-int printData(struct gameState* preState, struct gameState* postState, unsigned player) {
-   unsigned treasureCnt;
-
-   // count all treasure
-   treasureCnt = fullDeckCount(player, copper, preState) +
-                  fullDeckCount(player, silver, preState) +
-                  fullDeckCount(player, gold, preState);
-
-   printf("preState->handCount[%u]: %u\n", player, preState->handCount[player]);
-   printf("postState.handCount[%u]: %u\n", player, postState->handCount[player]);
-   printf("preState->deckCount[%u]: %u\n", player, preState->deckCount[player]);
-   printf("postState->deckCount[%u]: %u\n", player, postState->deckCount[player]);
-   printf("preState treasureCnt: %u\n", treasureCnt);
-
-   return 0;
-}
-
-
-// ========================================================================== //
-// ***                  buildKingdomCards()                               *** //
-// Description: Makes a deck of random cards for testing purposes. Will       //
-// always inlcude int <required> and and all victory cards/treasure cards     //
-// Params: int* <cards> - The array that random cards will be added to.       //
-//         int <required> - The card enum that must be included in the deck   //
-// ========================================================================== //
-int buildKingdomCards(int* cards, int required) {
-   unsigned it, n, act_min, act_max;
-   act_min = 7;
-   act_max = 26;
-   // Generate 10 random kingdomCards, only choosing from action cards
-   for(it = 0; it < 10; ++it){
-      cards[it] = (int)floor(Random() * 26) %(act_max+1-act_min) + act_min;
-   }
-
-   // Check for required card
-   for(it = 0, n = 0; it < 10; ++it){
-      if(cards[it] == required){
-         n = 1; break;
-      }
-   }
-
-   // if required not already added, add it now.
-   if(!n){ cards[9] = required; }
-
-   // add victory point cards to cards array
-   for(it = 10, n = estate; it < 13; ++it, ++n){
-      cards[it] = n;
-   }
-
-   // add treasure cards
-   for(it = 13, n = copper; it < 16; ++it, ++n){
-      cards[it] = n;
-   }
-
-   // if building the kingdomCards failed, then stop everything
-   for(it = 0; it < 16; ++it){
-      if(cards[it] < curse || cards[it] > treasure_map){
-         printf("%s\n", "buildKingdomCards failed");
-         printf("cards[%u]: %d\n", it, cards[it]);
-         return 1;
-      }
-   }
-
-   return 0;
-}
-
-
 int randomtestadventurer(struct gameState* preState){
    unsigned i, k, n, player, card;
    int it, cards[16];
@@ -83,7 +9,7 @@ int randomtestadventurer(struct gameState* preState){
    SelectStream(2);
    PutSeed(3);
 
-   for(n = 0; n < 1000; n++){
+   for(n = 0; n < MAX_CYCLES; n++){
       for(i = 0; i < sizeof(struct gameState); i++)
          ((char*)preState)[i] = floor(Random() *256);
 
