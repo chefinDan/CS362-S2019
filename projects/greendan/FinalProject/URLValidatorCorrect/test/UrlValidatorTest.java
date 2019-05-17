@@ -22,6 +22,7 @@ import junit.framework.TestCase;
  *
  * @version $Revision$
  */
+
 public class UrlValidatorTest extends TestCase {
 
    private final boolean printStatus = false;
