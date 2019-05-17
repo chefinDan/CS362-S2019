@@ -22,6 +22,7 @@ import junit.framework.TestCase;
  *
  * @version $Revision$
  */
+
 public class UrlValidatorTest extends TestCase {
 
    private final boolean printStatus = false;
@@ -32,13 +33,13 @@ public class UrlValidatorTest extends TestCase {
    }
 
    @Override
-protected void setUp() {
+    protected void setUp() {
       for (int index = 0; index < testPartsIndex.length - 1; index++) {
          testPartsIndex[index] = 0;
       }
-   }
+    }
 
-   public void testIsValid() {
+    public void testIsValid() {
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
         long options =
@@ -49,7 +50,7 @@ protected void setUp() {
         testIsValid(testUrlPartsOptions, options);
    }
 
-   public void testIsValidScheme() {
+    public void testIsValidScheme() {
       if (printStatus) {
          System.out.print("\n testIsValidScheme() ");
       }
