@@ -66,3 +66,7 @@ REVISION
 /mpc*
 /gmp*
 /isl*
+
+#ignore intellij idea files
+.idea
+*.iml
