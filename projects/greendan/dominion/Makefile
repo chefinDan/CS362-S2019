@@ -26,8 +26,16 @@ playdom: dominion.o playdom.c
 # testBuyCard: testDrawCard.c dominion.o rngs.o
 	# gcc -o testDrawCard -g  testDrawCard.c dominion.o rngs.o $(CFLAGS)
 
-randomtestreults: testSuite/randTestsDriver.c testSuite/randomtestadventurer.c testSuite/testSuite.c dominion.o card.o rngs.o
-	gcc -g testSuite/randTestsDriver.c testSuite/randomtestadventurer.c testSuite/testSuite.c dominion.o card.o rngs.o $(CFLAGS)
+randomtestresults:testSuite/randTestsDriver.c \
+						testSuite/testSuite.c \
+						testSuite/randomtestadventurer.c \
+						testSuite/randomtestsmithy.c \
+						dominion.o card.o rngs.o
+	gcc -g testSuite/randTestsDriver.c \
+			 testSuite/randomtestadventurer.c \
+			 testSuite/testSuite.c \
+			 testSuite/randomtestsmithy.c \
+			 dominion.o card.o rngs.o $(CFLAGS)
 	./a.out > randomtestreults.out
 	gcov -lbf card.c >> randomtestreults.out
 

@@ -1,0 +1,40 @@
+=== Running randomtestadventurer().... 
+
+=== Running randomtestsmithy().... 
+
+Function 'stewardEffect'
+Lines executed:0.00% of 10
+Branches executed:0.00% of 4
+Taken at least once:0.00% of 4
+Calls executed:0.00% of 5
+
+Function 'villageEffect'
+Lines executed:0.00% of 5
+No branches
+Calls executed:0.00% of 2
+
+Function 'smithyEffect'
+Lines executed:100.00% of 5
+Branches executed:100.00% of 2
+Taken at least once:100.00% of 2
+Calls executed:100.00% of 2
+
+Function 'council_roomEffect'
+Lines executed:0.00% of 8
+Branches executed:0.00% of 6
+Taken at least once:0.00% of 6
+Calls executed:0.00% of 3
+
+Function 'adventurerEffect'
+Lines executed:100.00% of 16
+Branches executed:100.00% of 12
+Taken at least once:100.00% of 12
+Calls executed:100.00% of 2
+
+File 'card.c'
+Lines executed:47.73% of 44
+Branches executed:58.33% of 24
+Taken at least once:58.33% of 24
+Calls executed:28.57% of 14
+Creating 'card.c.gcov'
+

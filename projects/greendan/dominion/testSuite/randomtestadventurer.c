@@ -1,6 +1,5 @@
 #include "testSuite.h"
 
-
 int randomtestadventurer(struct gameState* preState){
    unsigned i, k, n, player, card;
    int it, cards[16];
