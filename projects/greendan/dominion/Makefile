@@ -29,14 +29,17 @@ playdom: dominion.o playdom.c
 randomtestresults:testSuite/randTestsDriver.c \
 						testSuite/testSuite.c \
 						testSuite/randomtestadventurer.c \
-						testSuite/randomtestsmithy.c \
+						testSuite/randomtestcard1.c \
+					 	testSuite/randomtestcard1.c \
 						dominion.o card.o rngs.o
 	gcc -g testSuite/randTestsDriver.c \
 			 testSuite/randomtestadventurer.c \
 			 testSuite/testSuite.c \
-			 testSuite/randomtestsmithy.c \
+			 testSuite/randomtestcard1.c \
+			 testSuite/randomtestcard2.c \
 			 dominion.o card.o rngs.o $(CFLAGS)
-	./a.out > randomtestreults.out
+	-./a.out > randomtestreults.out
+	echo "\n\n" >> randomtestreults.out;
 	gcov -lbf card.c >> randomtestreults.out
 
 interface.o: interface.h interface.c

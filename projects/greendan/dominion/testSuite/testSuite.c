@@ -1,5 +1,18 @@
 #include "testSuite.h"
 
+enum RESULT my_assertEqual(int a, int b){
+   if(a != b){
+      return fail;
+   }
+   return pass;
+}
+
+
+void check(struct Test* test, const char* name, int a, int b){
+   strncpy(test->testFor, name, STR_MAX);
+   test->result = my_assertEqual(a, b);
+}
+
 // ========================================================================== //
 // ***                        printData()                                     //
 // Description: Prints useful debug information from struct gameState         //
@@ -7,21 +20,32 @@
 //         struct gameState* <post> - The gameState after a card was played   //
 //         unsigned player - The player whose data will be printed            //
 // ========================================================================== //
-int printData(struct gameState* preState, struct gameState* postState, unsigned player) {
-   unsigned treasureCnt;
+int printData(unsigned test_cycle, struct gameState* pre, struct gameState* post, unsigned player) {
+   unsigned treasureCntPre, treasureCntPost;
 
    // count all treasure
-   treasureCnt = fullDeckCount(player, copper, preState) +
-                  fullDeckCount(player, silver, preState) +
-                  fullDeckCount(player, gold, preState);
+   treasureCntPre = fullDeckCount(player, copper, pre) +
+                  fullDeckCount(player, silver, pre) +
+                  fullDeckCount(player, gold, pre);
+   treasureCntPost = fullDeckCount(player, copper, post) +
+                  fullDeckCount(player, silver, post) +
+                  fullDeckCount(player, gold, post);
 
-   printf("preState->handCount[%u]: %u\n", player, preState->handCount[player]);
-   printf("postState.handCount[%u]: %u\n", player, postState->handCount[player]);
-   printf("preState->deckCount[%u]: %u\n", player, preState->deckCount[player]);
-   printf("postState->deckCount[%u]: %u\n", player, postState->deckCount[player]);
-   printf("preState treasureCnt: %u\n", treasureCnt);
+   printf("Test Cycle: %d\n", test_cycle);
+   printf("  pre->handCount[%u]:     %u\n", player, pre->handCount[player]);
+   printf("  post->handCount[%u]:    %u\n", player, post->handCount[player]);
+   printf("  pre->deckCount[%u]:     %u\n", player, pre->deckCount[player]);
+   printf("  post->deckCount[%u]:    %u\n", player, post->deckCount[player]);
+   printf("  pre->discardCount[%u]:  %u\n", player, pre->discardCount[player]);
+   printf("  post->discardCount[%u]: %u\n", player, post->discardCount[player]);
+   printf("  pre->Score:            %u\n", scoreFor(player, pre));
+   printf("  post->Score:           %u\n", scoreFor(player, post));
+   printf("  pre->treasureCnt[%u]:   %u\n", player, treasureCntPre);
+   printf("  post->treasureCnt[%u]:  %u\n", player, treasureCntPost);
+
    return 0;
 }
+
 
 
 // ========================================================================== //
@@ -50,13 +74,14 @@ int buildKingdomCards(int* cards, int required) {
    // if required not already added, add it now.
    if(!n){ cards[9] = required; }
 
-   // add victory point cards to cards array
-   for(it = 10, n = estate; it < 13; ++it, ++n){
+
+   // add treasure cards
+   for(it = 10, n = copper; it < 13; ++it, ++n){
       cards[it] = n;
    }
 
-   // add treasure cards
-   for(it = 13, n = copper; it < 16; ++it, ++n){
+   // add victory point cards to cards array
+   for(it = 13, n = estate; it < 16; ++it, ++n){
       cards[it] = n;
    }
 

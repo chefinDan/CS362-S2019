@@ -106,12 +106,12 @@ int stewardEffect(int currentPlayer, struct gameState* state, int choice1, int c
 	else{
 		//trash 2 cards in hand
 		discardCard(choice2, currentPlayer, state, 1);
-		// discardCard(choice3, currentPlayer, state, 1);
-		discardCard(handPos, currentPlayer, state, 1);
+		discardCard(choice3, currentPlayer, state, 1);
+		// discardCard(handPos, currentPlayer, state, 1);
 	}
 
 	//discard card from hand
-	// discardCard(handPos, currentPlayer, state, 0);
-	discardCard(choice3, currentPlayer, state, 1);
+	discardCard(handPos, currentPlayer, state, 0);
+	// discardCard(choice3, currentPlayer, state, 1);
 	return 0;
 }

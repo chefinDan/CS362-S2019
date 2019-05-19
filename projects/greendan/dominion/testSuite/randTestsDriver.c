@@ -14,12 +14,17 @@ int main(){
 
    printf("%s\n\n", "=== Running randomtestcard1().... ");
    result = randomtestcard1(&preState);
-   
+
    if(result != 0){
-      printf("%s\n", "randomtestsmithy failed");
+      printf("%s\n", "randomtestcard1 failed");
    }
 
+   printf("%s\n\n", "=== Running randomtestcard2().... ");
+   result = randomtestcard2(&preState);
 
+   if(result != 0){
+      printf("%s\n", "randomtestcard2 failed");
+   }
 
   return 0;
 }

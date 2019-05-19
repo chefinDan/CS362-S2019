@@ -1,14 +1,14 @@
 #include "testSuite.h"
 
 int randomtestadventurer(struct gameState* preState){
-   unsigned i, k, n, player, card;
+   unsigned i, k, n, player, card, test_cycle;
    int it, cards[16];
    struct gameState postState;
 
    SelectStream(2);
    PutSeed(3);
 
-   for(n = 0; n < MAX_CYCLES; n++){
+   for(test_cycle = 0; test_cycle < MAX_CYCLES; ++test_cycle){
       for(i = 0; i < sizeof(struct gameState); i++)
          ((char*)preState)[i] = floor(Random() *256);
 
@@ -45,7 +45,7 @@ int randomtestadventurer(struct gameState* preState){
 
       // handCount is not correctly incremented
       if(postState.handCount[player] != preState->handCount[player] + 2){
-         printData(preState, &postState, player);
+         printData(test_cycle, preState, &postState, player);
          return 1;
       }
 
@@ -58,7 +58,7 @@ int randomtestadventurer(struct gameState* preState){
          fullDeckCount(player, silver, preState) +
          fullDeckCount(player, gold, preState)
       ){
-         printData(preState, &postState, player);
+         printData(test_cycle, preState, &postState, player);
          return 1;
       }
 
@@ -77,7 +77,7 @@ int randomtestadventurer(struct gameState* preState){
 
       // Check that the player does not have +2 treasure cards in hand
       if(k != (i + 2)){
-         printData(preState, &postState, player);
+         printData(test_cycle, preState, &postState, player);
          return 1;
       }
   }
