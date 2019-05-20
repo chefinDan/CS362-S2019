@@ -30,7 +30,7 @@ randomtestresults:testSuite/randTestsDriver.c \
 						testSuite/testSuite.c \
 						testSuite/randomtestadventurer.c \
 						testSuite/randomtestcard1.c \
-					 	testSuite/randomtestcard1.c \
+					 	testSuite/randomtestcard2.c \
 						dominion.o card.o rngs.o
 	gcc -g testSuite/randTestsDriver.c \
 			 testSuite/randomtestadventurer.c \

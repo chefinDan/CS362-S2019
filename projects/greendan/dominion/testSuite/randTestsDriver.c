@@ -18,6 +18,7 @@ int main(){
    if(result != 0){
       printf("%s\n", "randomtestcard1 failed");
    }
+   memset(&preState, 0, sizeof(struct gameState));
 
    printf("%s\n\n", "=== Running randomtestcard2().... ");
    result = randomtestcard2(&preState);

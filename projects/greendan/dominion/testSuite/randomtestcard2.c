@@ -54,10 +54,15 @@ int randomtestcard2(struct gameState* pre){
          }
       }
 
+      // Choose random values for each choice
       choice1 = floor(Random() * 3);
       choice2 = floor(Random() * pre->handCount[player]);
       choice3 = floor(Random() * pre->handCount[player]);
 
+      // Choices 2 and 3 represent cards in the players hand that might be trashed.
+      // While unrealistic during normal play, it is valid move to trash a victory card.
+      // This section of code determines how many victory points will be lost if victory cards
+      // are cosen to be trashed.
       if(choice2 == estate || choice2 == duchy || choice2 == province){
          if(choice2 == estate)   trashedVP += 1;
          if(choice2 == duchy)    trashedVP += 3;
@@ -68,10 +73,6 @@ int randomtestcard2(struct gameState* pre){
          if(choice3 == duchy)    trashedVP += 3;
          if(choice3 == province) trashedVP += 6;
       }
-
-      // printf("choice1: %d\n", choice1);
-      // printf("choice2: %d\n", choice2);
-      // printf("choice3: %d\n", choice3);
 
       // play steward card by calling stewardEffect
       stewardEffect(player, &post, choice1, choice2, choice3, handPos);

@@ -5,7 +5,7 @@ int randomtestcard1(struct gameState* pre){
    unsigned i, j, test_cycle, player;
    int it, card, cards[16], testNum, test_fail;
    struct gameState post;
-   static struct Test tests[10];
+   static struct Test tests[10]; // array of struct Test, to hold test result data
 
    SelectStream(2);
    PutSeed(3);
@@ -16,6 +16,7 @@ int randomtestcard1(struct gameState* pre){
       for(i = 0; i < sizeof(struct gameState); i++)
          ((char*)pre)[i] = floor(Random() *256);
 
+      // Build a deck of cards for testing, ensuring the smithy is present
       if( buildKingdomCards(cards, smithy) > 0 )
          return 1;
 
@@ -79,7 +80,7 @@ int randomtestcard1(struct gameState* pre){
    if(test_fail == 0){
       printf("%s", "+++ all tests passed +++ \n");
    }
-   
+
    printf("%s", "\n\n");
    return 0;
 }
