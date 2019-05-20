@@ -66,12 +66,12 @@ unittestresults: testSuite/* dominion.o card.o rngs.o
 	echo "cardtest1.c:" >> unittestresults.out
 	gcc -o cardtest1.out testSuite/cardtest1.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest1.out >> unittestresults.out
-	gcov -b dominion.c >> unittestresults.out
+	gcov -blf card.c >> unittestresults.out
 
 	echo "cardtest2.c:" >> unittestresults.out
 	gcc -o cardtest2.out testSuite/cardtest2.c dominion.o card.o rngs.o $(CFLAGS)
 	./cardtest2.out >> unittestresults.out 2>&1
-	gcov -b dominion.c >> unittestresults.out
+	gcov -blf card.c >> unittestresults.out
 
 	echo "cardtest3.c:" >> unittestresults.out
 	gcc -o cardtest3.out testSuite/cardtest3.c dominion.o card.o rngs.o $(CFLAGS)
