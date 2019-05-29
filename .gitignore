@@ -70,3 +70,6 @@ REVISION
 #ignore intellij idea files
 .idea
 *.iml
+
+#ignore vscode stuff
+.vscode
