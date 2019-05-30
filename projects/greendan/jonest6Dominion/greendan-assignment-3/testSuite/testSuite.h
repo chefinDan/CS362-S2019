@@ -1,10 +1,10 @@
-#ifndef TESTSUITE_H
-#define TESTSUITE_H
+#ifndef _TESTSUITE_H
+#define _TESTSUITE_H
 
-#include "../dominion.h"
-#include "../dominion_helpers.h"
-#include "../rngs.h"
-#include "../card.h"
+#include "../../dominion.h"
+#include "../../dominion_helpers.h"
+#include "../../rngs.h"
+// #include "../card.h"
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
@@ -13,7 +13,7 @@
 #include <errno.h> /* errno */
 
 #define CARDTEST1_DEBUG 0
-#define CARDTEST2_DEBUG 0
+#define CARDTEST2_DEBUG 1
 #define CARDTEST3_DEBUG 0
 #define CARDTEST4_DEBUG 0
 

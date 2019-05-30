@@ -573,7 +573,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState* state) {
 int drawCard(int player, struct gameState* state) {
   int count;
   int deckCounter;
-
+ 
   if (state->deckCount[player] <= 0) {  // Deck is empty
     // Step 1 Shuffle the discard pile back into a deck
     int i;
@@ -724,7 +724,7 @@ int adventurerEffect(int currentPlayer, struct gameState* state) {
       shuffle(currentPlayer, state);
     }
 
-    drawCard(currentPlayer + 1, state + 1);
+    drawCard(currentPlayer, state);
 
     // top card of hand is most recently drawn card.
     cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer] - 1];
@@ -753,7 +753,7 @@ int adventurerEffect(int currentPlayer, struct gameState* state) {
  */
 int villageEffect(int currentPlayer, struct gameState* state, int handPos) {
   // +1 Card
-  drawCard(state, currentPlayer);
+  drawCard(currentPlayer, state);
   state->numActions = state->numActions + 1;
 
   // discard played card from hand

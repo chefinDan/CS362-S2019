@@ -1,0 +1,51 @@
+Noverse Bug Reporting Template
+==============================
+
+Title: (SIGSEGV) Access not within mapped region at address 0x1FFF0034E8, adventurerEffect()    
+
+Class:
+e.g. "Feature Request", "System Error", "Serious Bug"
+
+Date:           
+Reported By:   
+Email:      
+
+
+Product:                        Version:
+Platform:                       Version:
+Browser:                        Version:
+URL:        
+
+Is it reproducible: Yes / Occasionally / One Time / No
+
+Description
+===========
+
+
+
+Steps to Produce/Reproduce
+--------------------------
+
+
+
+Expected Results
+----------------
+
+
+
+Actual Results
+--------------
+
+
+
+Workarounds
+-----------
+
+
+
+Attachments
+-----------
+
+
+
+Other Information

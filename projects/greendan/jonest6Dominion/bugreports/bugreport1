@@ -1,0 +1,68 @@
+
+Title: (SIGSEGV) Crash - Access not within mapped region at address 0x1FFF0034E8, adventurerEffect()    
+
+Class: "Serious Bug"
+
+Date: 5 May 2019          
+Reported By: Daniel Green  
+Email: greendan@oregonstate.edu     
+
+
+Product: Dominion               Version: assignment-2
+Platform: Ubuntu 18.04.2 LTS, Linux 4.15.0-50-generic
+Compiler: gcc version 7.4.0
+
+
+Is it reproducible: Yes.
+
+Description
+===========
+Compile cardtest1.c, which executes a unit test on dominion::adventurerEffect() by calling dominion::playCard().
+Upon execution of the compiled binary, the program terminates with SIGSEGV.
+
+
+Steps to Produce/Reproduce
+--------------------------
+/bin/sh make cardtests
+
+
+Expected Results
+----------------
+I expected to see a file called cardTest_results.out with information about the passing/failing state of the various unit tests.
+
+
+Actual Results
+--------------
+Segmentation fault (Core dumped), and no information about the unit tests.
+
+
+Workarounds
+-----------
+There are no work arounds, the source code must be debugged to find the section where memory is being accessed out of bounds.  
+
+
+Attachments
+-----------
+
+
+
+Other Information
+I am confident that the cardtest1.c unit test works, because it calls the playCard() function in dominion.h, which should be unchanged from the original program code. Therefore the bug must be within the adventurerEffect() code.
+The bug was discovered via a unit test I wrote that specifically tests te adventurerEffect() function in dominion.c
+
+Fix
+-----------
+After getting a seg fault, I ran the program with gdb, which revealed the exact stopping point where a memory address was accessed out of bounds. 
+This revealed that the drawCard() function was causing the seg fault. It was recieving a parameter value that was out of bounds. So I checked the calling function, which was adventurerEffect(), and found that it was calling drawCard() with both parameters incremented by an integer value of 1.
+There was no visible reason for this use of a "magic number", so I removed both increments and recompiled the source. It successfully compiled and ran on the first attempt.
+See screenshot bugreport1_gdb.
+
+
+Coverage
+-------------
+results for cardtest1.c ie. adventurerEffect()
+Function 'adventurerEffect'
+Lines executed:100.00% of 17
+Branches executed:100.00% of 12
+Taken at least once:91.67% of 12
+Calls executed:100.00% of 2

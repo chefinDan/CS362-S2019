@@ -1,0 +1,57 @@
+Noverse Bug Reporting Template
+==============================
+
+Title: Type conversion without proper cast within villageEffect()   
+
+Class: Compilation Warning
+
+Date: 29 May 2019          
+Reported By: Daniel Green  
+Email: greendan@oregonstate.edu     
+
+
+Product: Dominion               Version: assignment-2
+Platform: Ubuntu 18.04.2 LTS, Linux 4.15.0-50-generic
+Compiler: gcc version 7.4.0
+
+Is it reproducible: Yes
+
+Description
+===========
+Upon compilation of dominion.c with gcc flag -Wall, the compiler warns that the parameters of drawCard(), which is called inside villageEffect(), are being passed as incompatible types.  
+
+
+Steps to Produce/Reproduce
+--------------------------
+/bin/sh make cardtests
+This compiles dominion.c without linkage and causes the compiler warning.
+
+
+Expected Results
+----------------
+Makefile recipe printed to stdout without warnings or errors.
+
+
+Actual Results
+--------------
+Two seperate warnings, instructing the user that both parameters of drawCard() in villageEffect() are being passed as incompatible types.
+
+
+Workarounds
+-----------
+Gcc reports them as warnings so the compilation is successful. Undefined behaviour may occur if the villageEffect() function is called. So a workaround is to simply not use villageEffect(). 
+
+
+Attachments
+-----------
+see bugreport2_gccWarning
+
+
+Other Information
+-----------
+This bug was found as a result of testing a different card function. It is worth submitting a bug report because it could cause program failure in other use cases.
+
+
+fix
+-----------
+The warnings produced by gcc were sufficient to know exactly where the bug could be found. The definition of villageEffect() in dominion.c calls drawCard(), so I swapped the two parameters to drawCard() and the warnings were seen no more. 
