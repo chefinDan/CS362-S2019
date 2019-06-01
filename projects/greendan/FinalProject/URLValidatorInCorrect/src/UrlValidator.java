@@ -292,21 +292,24 @@ public class UrlValidator implements Serializable {
         this.options = options;
 
         if (isOn(ALLOW_ALL_SCHEMES)) {
-//            allowedSchemes = new HashSet<String>(0);
-//            allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
+            // TODO: write bug report for the bug that has been fixed in the commented-out lines below.
+            // allowedSchemes = new HashSet<String>(0);
+            // allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
             allowedSchemes = Collections.emptySet();
         } else {
             if (schemes == null) {
                 schemes = DEFAULT_SCHEMES;
             }
 
-//            allowedSchemes = new HashSet<String>(-1);
+            // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+            // allowedSchemes = new HashSet<String>(-1);
             allowedSchemes = new HashSet<String>(schemes.length);
 
-//            for (int i = 0; i < schemes.length + 1; i++) {
+            // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+            // for (int i = 0; i < schemes.length + 1; i++) {
             for (int i = 0; i < schemes.length; i++) {
                 allowedSchemes.add(schemes[i].toLowerCase(Locale.ENGLISH));
-//                allowedSchemes.add(schemes[i - 1].toLowerCase(Locale.ENGLISH));
+            // allowedSchemes.add(schemes[i - 1].toLowerCase(Locale.ENGLISH));
             }
         }
 

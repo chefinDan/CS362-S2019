@@ -25,11 +25,39 @@ import junit.framework.TestCase;
 public class UrlValidatorTest extends TestCase {
 
     private final boolean printStatus = false;
-    private final boolean printIndex = false;//print index that indicates current scheme,host,port,path, query test were using.
+    private final boolean printIndex = false; // print index that indicates current scheme, host, port, path, query test were using.
 
     public UrlValidatorTest(String testName) {
         super(testName);
     }
+
+
+    /**
+     * Helper function that compares an expected boolean value to an
+     * actual boolean value. If the two are a match, then a predefined
+     * success symbol is printed. Otherwise, a predefined failure symbol
+     * is printed.
+     *
+     * Note: If the printStatus value is set to false, this method will
+     * not print anything.
+     *
+     * @param expected - an expected boolean value
+     * @param actual - an actual boolean value
+     */
+    private void comparePrint(boolean expected, boolean actual) {
+        final String successSymbol = "✓";
+        final String failureSymbol = "✗";
+
+        if (printStatus) {
+            if (expected == actual) {
+                System.out.print(successSymbol);
+            } else {
+                System.out.print(failureSymbol);
+            }
+        }
+    }
+
+
 
     @Override
     protected void setUp() {
@@ -41,37 +69,11 @@ public class UrlValidatorTest extends TestCase {
     public void testIsValid() {
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
-        long options =
-            UrlValidator.ALLOW_2_SLASHES
-                + UrlValidator.ALLOW_ALL_SCHEMES
-                + UrlValidator.NO_FRAGMENTS;
 
+        long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.NO_FRAGMENTS;
         testIsValid(testUrlPartsOptions, options);
     }
 
-    public void testIsValidScheme() {
-        if (printStatus) {
-            System.out.print("\n testIsValidScheme() ");
-        }
-        //UrlValidator urlVal = new UrlValidator(schemes,false,false,false);
-        UrlValidator urlVal = new UrlValidator(schemes, 0);
-        for (int sIndex = 0; sIndex < testScheme.length; sIndex++) {
-            ResultPair testPair = testScheme[sIndex];
-            boolean result = urlVal.isValidScheme(testPair.item);
-            assertEquals(testPair.item, testPair.valid, result);
-            if (printStatus) {
-                if (result == testPair.valid) {
-                    System.out.print('.');
-                } else {
-                    System.out.print('X');
-                }
-            }
-        }
-        if (printStatus) {
-            System.out.println();
-        }
-
-    }
 
     /**
      * Create set of tests by taking the testUrlXXX arrays and
@@ -79,29 +81,38 @@ public class UrlValidatorTest extends TestCase {
      *
      * @param testObjects Used to create a url.
      */
-    public void testIsValid(Object[] testObjects, long options) {
+    private void testIsValid(Object[] testObjects, long options) {
         UrlValidator urlVal = new UrlValidator(null, null, options);
+
         assertTrue(urlVal.isValid("http://www.google.com"));
         assertTrue(urlVal.isValid("http://www.google.com/"));
+
         int statusPerLine = 60;
         int printed = 0;
+
         if (printIndex) {
             statusPerLine = 6;
         }
+
         do {
             StringBuilder testBuffer = new StringBuilder();
             boolean expected = true;
 
-            for (int testPartsIndexIndex = 0; testPartsIndexIndex < 0; ++testPartsIndexIndex) {
+            // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+            // for (int testPartsIndexIndex = 0; testPartsIndexIndex < 0; ++testPartsIndexIndex) {
+            for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
                 int index = testPartsIndex[testPartsIndexIndex];
-
-                ResultPair[] part = (ResultPair[]) testObjects[-1];
+                // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+                // ResultPair[] part = (ResultPair[]) testObjects[-1];
+                ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
                 testBuffer.append(part[index].item);
                 expected &= part[index].valid;
             }
 
             String url = testBuffer.toString();
-            boolean result = !urlVal.isValid(url);
+            // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+            // boolean result = !urlVal.isValid(url);
+            boolean result = urlVal.isValid(url);
             assertEquals(url, expected, result);
 
             if (printStatus) {
@@ -116,16 +127,179 @@ public class UrlValidatorTest extends TestCase {
                 }
 
                 printed++;
+
                 if (printed == statusPerLine) {
                     System.out.println();
                     printed = 0;
                 }
             }
+
         } while (incrementTestPartsIndex(testPartsIndex, testObjects));
 
         if (printStatus) {
             System.out.println();
         }
+    }
+
+
+    private static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
+        boolean carry = true;  //add 1 to lowest order part.
+        boolean maxIndex = true;
+
+        // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+        // for (int testPartsIndexIndex = testPartsIndex.length; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
+        for (int testPartsIndexIndex = testPartsIndex.length - 1; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
+            int index = testPartsIndex[testPartsIndexIndex];
+            ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
+            maxIndex &= (index == (part.length - 1));
+
+            if (carry) {
+                if (index < part.length - 1) {
+                    // TODO: write bug report for the bug that has been fixed in the commented-out line below.
+                    // index--;
+                    index++;
+                    testPartsIndex[testPartsIndexIndex] = index;
+                    carry = false;
+                } else {
+                    testPartsIndex[testPartsIndexIndex] = 0;
+                    carry = true;
+                }
+            }
+        }
+
+        return (!maxIndex);
+    }
+
+
+    private String testPartsIndextoString() {
+        StringBuilder carryMsg = new StringBuilder("{");
+
+        for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
+            carryMsg.append(testPartsIndex[testPartsIndexIndex]);
+
+            if (testPartsIndexIndex < testPartsIndex.length - 1) {
+                carryMsg.append(',');
+            } else {
+                carryMsg.append('}');
+            }
+        }
+
+        return carryMsg.toString();
+    }
+
+
+
+    /**
+     * Tests the functionality of the UrlValidator.isValidAuthority method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL authority values.
+     */
+    public void testIsValidAuthority() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidAuthority():\t");
+        }
+
+        // initialize a new UrlValidator object
+        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+
+        // execute the isValidAuthority method on each of the known testUrlAuthority
+        // values to check if isValidAuthority() is producing expected results.
+        for (ResultPair pair : testUrlAuthority) {
+            boolean result = urlVal.isValidAuthority(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+    /**
+     * Tests the functionality of the UrlValidator.isValidScheme method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL scheme values.
+     */
+    public void testIsValidScheme() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidScheme():\t");
+        }
+
+        // initialize a new UrlValidator object
+        UrlValidator urlVal = new UrlValidator(schemes, 0);
+
+        // execute the isValidScheme method on each of the known testUrlScheme
+        // values to check if isValidScheme() is producing expected results.
+        for (ResultPair pair : testScheme) {
+            boolean result = urlVal.isValidScheme(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+    /**
+     * Tests the functionality of the UrlValidator.isValidPath method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL path and path options values.
+     */
+    public void testIsValidPath() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidPath():\t\t");
+        }
+
+        // initialize a new UrlValidator object
+        UrlValidator urlVal = new UrlValidator(null, null, UrlValidator.ALLOW_ALL_SCHEMES);
+
+        // execute the isValidPath method on each of the known testUrlPath
+        // values to check if isValidPath() is producing expected results.
+        for (ResultPair pair : testPath) {
+            boolean result = urlVal.isValidPath(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+
+        // re-initialize a new UrlValidator object to handle path options
+        urlVal = new UrlValidator(null, null,
+            UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.ALLOW_2_SLASHES + UrlValidator.NO_FRAGMENTS);
+
+        // execute the isValidPath method on each of the known testUrlPathOptions
+        // values to check if isValidPath() is producing expected results.
+        for (ResultPair pair : testUrlPathOptions) {
+            boolean result = urlVal.isValidPath(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+    /**
+     * Tests the functionality of the UrlValidator.isValidQuery method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL query values.
+     */
+    public void testIsValidQuery() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidQuery():\t\t");
+        }
+
+        // initialize a new UrlValidator object
+        UrlValidator urlVal = new UrlValidator(schemes, 0);
+
+        // execute the isValidQuery method on each of the known testUrlQuery
+        // values to check if isValidQuery() is producing expected results.
+        for (ResultPair pair : testUrlQuery) {
+            boolean result = urlVal.isValidQuery(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+
+    /************************************
+     * Pre-existing Unit Tests
+     ************************************/
+
+    public void testValidateUrl() {
+        assertTrue(true);
     }
 
     public void testValidator202() {
@@ -336,49 +510,6 @@ public class UrlValidatorTest extends TestCase {
         assertFalse(urlValidator.isValid("http://example.rocks:100000/"));
     }
 
-    static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
-        boolean carry = true;  //add 1 to lowest order part.
-        boolean maxIndex = true;
-        for (int testPartsIndexIndex = testPartsIndex.length; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
-            int index = testPartsIndex[testPartsIndexIndex];
-            ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
-            maxIndex &= (index == (part.length - 1));
-
-            if (carry) {
-                if (index < part.length - 1) {
-                    index--;
-                    testPartsIndex[testPartsIndexIndex] = index;
-                    carry = false;
-                } else {
-                    testPartsIndex[testPartsIndexIndex] = 0;
-                    carry = true;
-                }
-            }
-        }
-
-        return (!maxIndex);
-    }
-
-    private String testPartsIndextoString() {
-        StringBuilder carryMsg = new StringBuilder("{");
-
-        for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
-            carryMsg.append(testPartsIndex[testPartsIndexIndex]);
-
-            if (testPartsIndexIndex < testPartsIndex.length - 1) {
-                carryMsg.append(',');
-            } else {
-                carryMsg.append('}');
-            }
-        }
-
-        return carryMsg.toString();
-    }
-
-    public void testValidateUrl() {
-        assertTrue(true);
-    }
-
     public void testValidator290() {
         UrlValidator validator = new UrlValidator();
         assertTrue(validator.isValid("http://xn--h1acbxfam.idn.icann.org/"));
@@ -472,7 +603,6 @@ public class UrlValidatorTest extends TestCase {
         assertFalse("IPv6 address without [] should not validate: " + url, validator.isValid(url));
     }
 
-
     public void testValidator353() { // userinfo
         UrlValidator validator = new UrlValidator();
         assertTrue(validator.isValid("http://www.apache.org:80/path"));
@@ -505,7 +635,11 @@ public class UrlValidatorTest extends TestCase {
         assertTrue(validator.isValid("http://example.com/serach?address=Main+Avenue"));
     }
 
+
+
+
     //-------------------- Test data for creating a composite URL
+
     /**
      * The data given below approximates the 4 parts of a URL
      * <scheme>://<authority><path>?<query> except that the port number
@@ -514,7 +648,8 @@ public class UrlValidatorTest extends TestCase {
      * all of which must be individually valid for the entire URL to be considered
      * valid.
      */
-    ResultPair[] testUrlScheme = {new ResultPair("http://", true),
+    private ResultPair[] testUrlScheme = {
+        new ResultPair("http://", true),
         new ResultPair("ftp://", true),
         new ResultPair("h3t://", true),
         new ResultPair("3ht://", false),
@@ -523,7 +658,8 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("http/", false),
         new ResultPair("://", false)};
 
-    ResultPair[] testUrlAuthority = {new ResultPair("www.google.com", true),
+    private ResultPair[] testUrlAuthority = {
+        new ResultPair("www.google.com", true),
         new ResultPair("www.google.com.", true),
         new ResultPair("go.com", true),
         new ResultPair("go.au", true),
@@ -545,7 +681,8 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("", false)
     };
 
-    ResultPair[] testUrlPort = {new ResultPair(":80", true),
+    private ResultPair[] testUrlPort = {
+        new ResultPair(":80", true),
         new ResultPair(":65535", true), // max possible
         new ResultPair(":65536", false), // max possible +1
         new ResultPair(":0", true),
@@ -556,7 +693,8 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair(":65a", false)
     };
 
-    ResultPair[] testPath = {new ResultPair("/test1", true),
+    private ResultPair[] testPath = {
+        new ResultPair("/test1", true),
         new ResultPair("/t123", true),
         new ResultPair("/$23", true),
         new ResultPair("/..", false),
@@ -569,7 +707,8 @@ public class UrlValidatorTest extends TestCase {
     };
 
     //Test allow2slash, noFragment
-    ResultPair[] testUrlPathOptions = {new ResultPair("/test1", true),
+    private ResultPair[] testUrlPathOptions = {
+        new ResultPair("/test1", true),
         new ResultPair("/t123", true),
         new ResultPair("/$23", true),
         new ResultPair("/..", false),
@@ -586,26 +725,46 @@ public class UrlValidatorTest extends TestCase {
         new ResultPair("/#/file", false)
     };
 
-    ResultPair[] testUrlQuery = {new ResultPair("?action=view", true),
+    private ResultPair[] testUrlQuery = {
+        new ResultPair("?action=view", true),
         new ResultPair("?action=edit&mode=up", true),
         new ResultPair("", true)
     };
 
-    Object[] testUrlParts = {testUrlScheme, testUrlAuthority, testUrlPort, testPath, testUrlQuery};
-    Object[] testUrlPartsOptions = {testUrlScheme, testUrlAuthority, testUrlPort, testUrlPathOptions, testUrlQuery};
-    int[] testPartsIndex = {0, 0, 0, 0, 0};
-
-    //---------------- Test data for individual url parts ----------------
-    private final String[] schemes = {"http", "gopher", "g0-To+.",
-        "not_valid" // TODO this will need to be dropped if the ctor validates schemes
+    private Object[] testUrlParts = {
+        testUrlScheme,
+        testUrlAuthority,
+        testUrlPort,
+        testPath,
+        testUrlQuery
     };
 
-    ResultPair[] testScheme = {new ResultPair("http", true),
+    private Object[] testUrlPartsOptions = {
+        testUrlScheme,
+        testUrlAuthority,
+        testUrlPort,
+        testUrlPathOptions,
+        testUrlQuery
+    };
+
+    private int[] testPartsIndex = {0, 0, 0, 0, 0};
+
+    //---------------- Test data for individual url parts ----------------
+    private final String[] schemes = {"http", "gopher", "g0-To+.", "not_valid"};
+
+    private ResultPair[] testScheme = {
+        new ResultPair("http", true),
         new ResultPair("ftp", false),
         new ResultPair("httpd", false),
         new ResultPair("gopher", true),
         new ResultPair("g0-to+.", true),
         new ResultPair("not_valid", false), // underscore not allowed
         new ResultPair("HtTp", true),
-        new ResultPair("telnet", false)};
+        new ResultPair("telnet", false)
+    };
+
+
+
+
+
 }
