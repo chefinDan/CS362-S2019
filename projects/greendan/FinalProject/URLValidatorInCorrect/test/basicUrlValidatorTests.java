@@ -13,5 +13,12 @@ public class basicUrlValidatorTests extends TestCase {
     public void testInstantiateUrlValidator(){
         UrlValidator validate = new UrlValidator();
         assertNotNull(validate);
+
+        String[] schemes = {"http", "https", "ftp", "file", "mailto"};
+        validate = new UrlValidator(schemes);
+        assertNotNull(validate);
+
+
     }
 }
+

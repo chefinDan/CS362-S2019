@@ -269,33 +269,20 @@ public class UrlValidator implements Serializable {
 
     public UrlValidator(String[] schemes, RegexValidator authorityValidator, long options) {
         this.options = options;
-
         allowedSchemes = new HashSet<>(0);
 
-        if (isOn(ALLOW_ALL_SCHEMES)) {
-            //TODO BUG line 275: initialCapacity -1, fixed to 0
+        //TODO BUG line 275: initialCapacity -1, fixed to 0 and moved outside if statement
 
-            // TODO BUG line schemes.length+1, fixed to schemes.length
-//            for (String scheme : schemes) {
-//                allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
-//            }
-//        	allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
-        }
-        else {
+        // TODO BUG iterate schemes.length+1, fixed to forEach loop
+        // TODO REFACTOR
+        if (isOff(ALLOW_ALL_SCHEMES)) {
             if (schemes == null) {
-                for (String scheme: DEFAULT_SCHEMES) {
-                    allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
-                }
+                schemes = DEFAULT_SCHEMES;
             }
-            else{
-                for (String scheme : schemes){
-                    allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
-                }
-            }
-            
-//            allowedSchemes = new HashSet<String>(0);
-            
 
+            for (String scheme : schemes) {
+                allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
+            }
         }
 
         this.authorityValidator = authorityValidator;

@@ -33,18 +33,21 @@ public class UrlValidatorTest extends TestCase {
 
    @Override
 protected void setUp() {
-      for (int index = 0; index < testPartsIndex.length - 1; index++) {
+//       TODO was: testPartsIndex.length - 1,
+//       System.out.printf("testPartsIndex.length: %d", testPartsIndex.length);
+      for (int index = 0; index < testPartsIndex.length; index++) {
          testPartsIndex[index] = 0;
       }
    }
 
    public void testIsValid() {
-        testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
-        setUp();
-        long options =
-            UrlValidator.ALLOW_2_SLASHES
-                + UrlValidator.ALLOW_ALL_SCHEMES
-                + UrlValidator.NO_FRAGMENTS;
+       testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
+       setUp();
+
+       long options =
+               UrlValidator.ALLOW_2_SLASHES
+                       + UrlValidator.ALLOW_ALL_SCHEMES
+                       + UrlValidator.NO_FRAGMENTS;
 
         testIsValid(testUrlPartsOptions, options);
    }
@@ -80,28 +83,39 @@ protected void setUp() {
     * @param testObjects Used to create a url.
     */
    public void testIsValid(Object[] testObjects, long options) {
+//       use default schemes
       UrlValidator urlVal = new UrlValidator(null, null, options);
+
       assertTrue(urlVal.isValid("http://www.google.com"));
       assertTrue(urlVal.isValid("http://www.google.com/"));
+
       int statusPerLine = 60;
       int printed = 0;
       if (printIndex)  {
          statusPerLine = 6;
       }
+
       do {
+//          build up a url string from the parts in testObjects[]
           StringBuilder testBuffer = new StringBuilder();
          boolean expected = true;
-         
-         for (int testPartsIndexIndex = 0; testPartsIndexIndex < 0; ++testPartsIndexIndex) {
+
+//         TODO BUG was testPartsIndexIndex < 0
+          System.out.printf("testPartsIndex.length: %d", testPartsIndex.length);
+         for (int testPartsIndexIndex = 0; testPartsIndexIndex < testPartsIndex.length; ++testPartsIndexIndex) {
             int index = testPartsIndex[testPartsIndexIndex];
-            
-            ResultPair[] part = (ResultPair[]) testObjects[-1];
+
+//            TODO BUG, was: ResultPair[] part = (ResultPair[]) testObjects[-1];
+            ResultPair[] part = (ResultPair[]) testObjects[testPartsIndexIndex];
             testBuffer.append(part[index].item);
             expected &= part[index].valid;
          }
+
+//          This is the url that will be processed by UrlValidator.isValid()
          String url = testBuffer.toString();
-         
-         boolean result = !urlVal.isValid(url);
+
+//         TODO BUG was: !urlVal.isValid(url)
+         boolean result = urlVal.isValid(url);
          assertEquals(url, expected, result);
          if (printStatus) {
             if (printIndex) {
@@ -124,6 +138,41 @@ protected void setUp() {
          System.out.println();
       }
    }
+
+
+    //TODO BUG was: testPartsIndexIndex = testPartsIndex.length; now: testPartsIndexIndex = testPartsIndex.length-1
+    static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
+        //add 1 to lowest order part.
+        boolean carry = true;
+        boolean maxIndex = true;
+
+        // iterate through testPartsIndex starting at end working backwards
+        for (int testPartsIndexIndex = testPartsIndex.length-1; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
+            // index is the
+            int index = testPartsIndex[testPartsIndexIndex];
+            ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
+            maxIndex &= (index == (part.length - 1));
+
+
+            if (carry) {
+                if (index < part.length - 1) {
+//                    TODO BUG was: index--;
+                    index++;
+                    testPartsIndex[testPartsIndexIndex] = index;
+                    carry = false;
+                } else {
+                    testPartsIndex[testPartsIndexIndex] = 0;
+                    carry = true;
+                }
+            }
+//         return true;
+        }
+        return (!maxIndex);
+
+    }
+
+
+
 
    public void testValidator202() {
        String[] schemes = {"http","https"};
@@ -331,28 +380,7 @@ protected void setUp() {
         assertFalse(urlValidator.isValid("http://example.rocks:100000/"));
     }
 
-    static boolean incrementTestPartsIndex(int[] testPartsIndex, Object[] testParts) {
-      boolean carry = true;  //add 1 to lowest order part.
-      boolean maxIndex = true;
-      for (int testPartsIndexIndex = testPartsIndex.length; testPartsIndexIndex >= 0; --testPartsIndexIndex) {
-          int index = testPartsIndex[testPartsIndexIndex];
-         ResultPair[] part = (ResultPair[]) testParts[testPartsIndexIndex];
-         maxIndex &= (index == (part.length - 1));
-         
-         if (carry) {
-            if (index < part.length - 1) {
-            	index--;
-               testPartsIndex[testPartsIndexIndex] = index;
-               carry = false;
-            } else {
-               testPartsIndex[testPartsIndexIndex] = 0;
-               carry = true;
-            }
-         }
-      }
-      
-      return (!maxIndex);
-   }
+
 
    private String testPartsIndextoString() {
        StringBuilder carryMsg = new StringBuilder("{");
