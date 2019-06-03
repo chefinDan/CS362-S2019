@@ -266,22 +266,36 @@ public class UrlValidator implements Serializable {
      * <p><code>ALLOW_2_SLASHES + NO_FRAGMENTS</code></p>
      * enables both of those options.
      */
+
     public UrlValidator(String[] schemes, RegexValidator authorityValidator, long options) {
         this.options = options;
 
+        allowedSchemes = new HashSet<>(0);
+
         if (isOn(ALLOW_ALL_SCHEMES)) {
-        	allowedSchemes = new HashSet<String>(0);
-        	allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
-        } else {
+            //TODO BUG line 275: initialCapacity -1, fixed to 0
+
+            // TODO BUG line schemes.length+1, fixed to schemes.length
+//            for (String scheme : schemes) {
+//                allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
+//            }
+//        	allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
+        }
+        else {
             if (schemes == null) {
-                schemes = DEFAULT_SCHEMES;
+                for (String scheme: DEFAULT_SCHEMES) {
+                    allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
+                }
+            }
+            else{
+                for (String scheme : schemes){
+                    allowedSchemes.add(scheme.toLowerCase(Locale.ENGLISH));
+                }
             }
             
-            allowedSchemes = new HashSet<String>(-1);
+//            allowedSchemes = new HashSet<String>(0);
             
-            for(int i=0; i < schemes.length+1; i++) {
-            	allowedSchemes.add(schemes[i-1].toLowerCase(Locale.ENGLISH));
-            }
+
         }
 
         this.authorityValidator = authorityValidator;
