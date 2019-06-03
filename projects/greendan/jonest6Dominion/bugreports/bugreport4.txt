@@ -1,0 +1,125 @@
+Title: stewardEffect fails random test fuzzer on discardCount  
+
+Class: Random test failure
+
+Date: 2 June 2019          
+Reported By: Daniel Green  
+Email: greendan@oregonstate.edu     
+
+Product: Dominion               Version: assignment-2
+Platform: Ubuntu 18.04.2 LTS, Linux 4.15.0-50-generic
+Compiler: gcc version 7.4.0
+
+Is it reproducible: Yes
+
+Description
+===========
+The random test generator developed for assignment-4 tests stewardEffect by testing it 1000 times with random controlled data. According to the random tests wrote the card is the test for a correct discard count.
+the smithyEffect card does not control the discard function so the error must be coming from discardCard().
+
+Random tester output
+!-- randomtestcard1 failed ---! 
+0. testHandCount
+ result: 1
+1. testDeckCount
+ result: 1
+2. testDiscardCount
+ result: 0
+3. testScore
+ result: 0
+Test Cycle: 0
+  pre->handCount[1]:     152
+  post->handCount[1]:    154
+  pre->deckCount[1]:     422
+  post->deckCount[1]:    419
+  pre->discardCount[1]:  169
+  post->discardCount[1]: 169
+  pre->Score:            331
+  post->Score:           332
+  pre->treasureCnt[1]:   125
+  post->treasureCnt[1]:  125
+
+Steps to Produce/Reproduce
+--------------------------
+/bin/sh make randomtestresults
+This will execute all random tests, and send output to randomtestresults.out
+
+Expected Results
+----------------
+For ranomtestresults.out to show no failures.
+
+
+Actual Results
+--------------
+=== Running randomtestcard1().... 
+
+!-- randomtestcard1 failed ---! 
+0. testHandCount
+ result: 1
+1. testDeckCount
+ result: 1
+2. testDiscardCount
+ result: 0
+3. testScore
+ result: 0
+Test Cycle: 0
+  pre->handCount[1]:     152
+  post->handCount[1]:    154
+  pre->deckCount[1]:     422
+  post->deckCount[1]:    419
+  pre->discardCount[1]:  169
+  post->discardCount[1]: 169
+  pre->Score:            331
+  post->Score:           332
+  pre->treasureCnt[1]:   125
+  post->treasureCnt[1]:  125
+
+
+=== Running randomtestcard2().... 
+
+!-- randomtestcard2 failed ---! 
+0. testHandCount
+ result: 0
+1. testDeckCount
+ result: 0
+2. testDiscardCount
+ result: 0
+3. testScore
+ result: 0
+Test Cycle: 0
+  pre->handCount[1]:     152
+  post->handCount[1]:    149
+  pre->deckCount[1]:     422
+  post->deckCount[1]:    422
+  pre->discardCount[1]:  169
+  post->discardCount[1]: 169
+  pre->Score:            331
+  post->Score:           328
+  pre->treasureCnt[1]:   125
+  post->treasureCnt[1]:  125
+
+
+Workarounds
+-----------
+Currently no workaround, the card is unplayable in it's current state.
+
+
+fix
+-----------
+In fixing this bug I discovered a bug in the scoreFor function. It was incorrectly counting the discarded cards when it should have been counting the deck cards.
+It also was not counting the first card that was counted in each pile, due to the interator starting at 0.
+This caused the random tester to pass 150 cycles of the test.
+
+I also found a bug in my own random tester, which icorrectly assumed that the number of cards in the players hand should be +3, when it reality it should be +2, due to discarding the smithy card.  
+
+Function 'smithyEffect'
+Lines executed:100.00% of 5
+Branches executed:100.00% of 2
+Taken at least once:100.00% of 2
+Calls executed:100.00% of 2
+
+Function 'scoreFor'
+Lines executed:87.76% of 49
+Branches executed:100.00% of 42
+Taken at least once:85.71% of 42
+

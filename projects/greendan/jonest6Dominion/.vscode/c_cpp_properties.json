@@ -3,7 +3,9 @@
         {
             "name": "Linux",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "greendan-assignment-4/testSuite/",
+                "/**"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

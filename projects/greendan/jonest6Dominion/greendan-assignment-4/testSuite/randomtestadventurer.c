@@ -41,7 +41,7 @@ int randomtestadventurer(struct gameState* preState){
       postState = *preState;
 
       // call adventurerEffect
-      adventurerEffect(&postState, player);
+      adventurerEffect(player, &postState);
 
       // handCount is not correctly incremented
       if(postState.handCount[player] != preState->handCount[player] + 2){

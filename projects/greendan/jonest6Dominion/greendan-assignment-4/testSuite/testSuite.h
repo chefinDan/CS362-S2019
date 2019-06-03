@@ -1,10 +1,10 @@
 #ifndef TESTSUITE_H
 #define TESTSUITE_H
 
-#include "../dominion.h"
-#include "../dominion_helpers.h"
-#include "../card.h"
-#include "../rngs.h"
+#include "dominion.h"
+#include "dominion_helpers.h"
+// #include "card.h"
+#include "rngs.h"
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>

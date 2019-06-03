@@ -75,7 +75,7 @@ int randomtestcard2(struct gameState* pre){
       }
 
       // play steward card by calling stewardEffect
-      stewardEffect(player, &post, choice1, choice2, choice3, handPos);
+      stewardEffect(choice1, choice2, choice3, player, &post, handPos);
 
       // Check all relevant gameState data
       testNum = 0;

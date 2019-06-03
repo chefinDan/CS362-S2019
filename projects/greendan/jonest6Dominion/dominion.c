@@ -424,6 +424,8 @@ int isGameOver(struct gameState* state) {
 int scoreFor(int player, struct gameState* state) {
   int i;
   int score = 0;
+  int gardens = 0;
+  int fulldeckCnt = 0;
 
   // score from hand
   for (i = 0; i < state->handCount[player]; i++) {
@@ -448,9 +450,11 @@ int scoreFor(int player, struct gameState* state) {
     }
 
     if (state->hand[player][i] == gardens) {
-      score = score + (fullDeckCount(player, 0, state) / 10);
+      gardens++;
+      // score = score + (fullDeckCount(player, 0, state) / 10);
     }
   }
+  fulldeckCnt += i;
 
   // score from discard
   for (i = 0; i < state->discardCount[player]; i++) {
@@ -475,12 +479,14 @@ int scoreFor(int player, struct gameState* state) {
     }
 
     if (state->discard[player][i] == gardens) {
-      score = score + (fullDeckCount(player, 0, state) / 10);
+      gardens++;
+      // score = score + (fullDeckCount(player, 0, state) / 10);
     }
   }
+  fulldeckCnt += i;
 
   // score from deck
-  for (i = 0; i < state->discardCount[player]; i++) {
+  for (i = 0; i < state->deckCount[player]; i++) {
     if (state->deck[player][i] == curse) {
       score = score - 1;
     }
@@ -502,9 +508,13 @@ int scoreFor(int player, struct gameState* state) {
     }
 
     if (state->deck[player][i] == gardens) {
-      score = score + (fullDeckCount(player, 0, state) / 10);
+      gardens++;
+      // score = score + (fullDeckCount(player, 0, state) / 10);
     }
   }
+  fulldeckCnt += i;
+  fulldeckCnt += 3;
+  score += floor((fulldeckCnt /10)) * gardens;
 
   return score;
 }
@@ -698,9 +708,9 @@ int getCost(int cardNumber) {
 int smithyEffect(int currentPlayer, struct gameState* state, int handPos) {
   int i;
 
-  for (i = 0; i > 3; i++) {
+  for (i = 0; i < 3; i++) {
     drawCard(currentPlayer, state);
-    drawCard(currentPlayer, state);
+    // drawCard(currentPlayer, state);
   }
 
   // discard card from hand
@@ -1308,9 +1318,12 @@ int discardCard(int handPos, int currentPlayer, struct gameState* state, int tra
   if (handPos == (state->handCount[currentPlayer] - 1)) {       // last card in hand array is played
     // reduce number of cards in hand
     state->handCount[currentPlayer]--;
+    state->discardCount[currentPlayer]++;
+
   } else if (state->handCount[currentPlayer] == 1) {     // only one card in hand
     // reduce number of cards in hand
     state->handCount[currentPlayer]--;
+    state->discardCount[currentPlayer]++;
   } else {
     // replace discarded card with last card in hand
     state->hand[currentPlayer][handPos] = state->hand[currentPlayer][(state->handCount[currentPlayer] - 1)];
@@ -1318,6 +1331,7 @@ int discardCard(int handPos, int currentPlayer, struct gameState* state, int tra
     state->hand[currentPlayer][state->handCount[currentPlayer] - 1] = -1;
     // reduce number of cards in hand
     state->handCount[currentPlayer]--;
+    state->discardCount[currentPlayer]++;
   }
 
   return 0;

@@ -53,12 +53,12 @@ int randomtestcard1(struct gameState* pre){
       }
 
       // play smithy card by calling smithyEffect
-      smithyEffect(card, player, &post);
+      smithyEffect(player, &post, card);
 
       // Check all relevant gameState data
       testNum = 0;
-      check(&tests[testNum], "testHandCount", post.handCount[player], pre->handCount[player] + 3);  ++testNum;
-      check(&tests[testNum], "testDeckCount", post.handCount[player], pre->handCount[player] - 3); ++testNum;
+      check(&tests[testNum], "testHandCount", post.handCount[player], pre->handCount[player] + 2);  ++testNum;
+      check(&tests[testNum], "testDeckCount", post.deckCount[player], pre->deckCount[player] - 3); ++testNum;
       check(&tests[testNum], "testDiscardCount", post.discardCount[player], pre->discardCount[player] + 1); ++testNum;
       check(&tests[testNum], "testScore", scoreFor(player, &post), scoreFor(player, pre)); ++testNum;
 

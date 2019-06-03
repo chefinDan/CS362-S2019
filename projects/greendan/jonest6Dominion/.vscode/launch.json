@@ -8,12 +8,12 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/_cardtest1",
+            "program": "_cardtest2",
             "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
+            "stopAtEntry": true,
+            "cwd": "${workspaceRoot}",
             "environment": [],
-            "externalConsole": true,
+            "externalConsole": false,
             "MIMode": "gdb",
             "setupCommands": [
                 {

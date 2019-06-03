@@ -1,0 +1,2 @@
+The process of debugging my partners code revealed how unit testing is a much "safer" method of debugging. It is less prone to errors because it is controlled.
+Where as random testing revealed many more bugs in the code. 

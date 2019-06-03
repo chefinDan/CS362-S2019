@@ -261,7 +261,7 @@ int testAdventurerEffect(){
 		}
 	}
 
-	adventurerEffect(&G, player);
+	adventurerEffect(player, &G);
 
 	// count treasure cards in hand after playing adventurer card
 	treasure_cnt_after = 0;

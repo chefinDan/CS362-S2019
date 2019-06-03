@@ -1,6 +1,8 @@
 CFLAGS= -fpic -coverage -lm -std=c99
 ODIR=obj
-TESTDIR=greendan-assignment-3/testSuite
+# TESTDIR=greendan-assignment-3/testSuite
+TESTDIR=greendan-assignment-4/testSuite/
+INC=./
 
 rngs.o: rngs.h rngs.c
 	gcc -c rngs.c -g  $(CFLAGS)
@@ -86,21 +88,21 @@ unittestresults: testSuite/* dominion.o rngs.o
 	gcov -b dominion.c >> unittestresults.out
 
 
-randomtestresults:testSuite/randTestsDriver.c \
-						testSuite/testSuite.c \
-						testSuite/randomtestadventurer.c \
-						testSuite/randomtestcard1.c \
-					 	testSuite/randomtestcard2.c \
+randomtestresults:greendan-assignment-4/testSuite/randTestsDriver.c \
+						greendan-assignment-4/testSuite/testSuite.c \
+						greendan-assignment-4/testSuite/randomtestadventurer.c \
+						greendan-assignment-4/testSuite/randomtestcard1.c \
+					 	greendan-assignment-4/testSuite/randomtestcard2.c \
 						dominion.o rngs.o
-	gcc -g testSuite/randTestsDriver.c \
-			 testSuite/randomtestadventurer.c \
-			 testSuite/testSuite.c \
-			 testSuite/randomtestcard1.c \
-			 testSuite/randomtestcard2.c \
+	gcc -g -I$(TESTDIR) -I$(INC) greendan-assignment-4/testSuite/randTestsDriver.c \
+			 greendan-assignment-4/testSuite/randomtestadventurer.c \
+			 greendan-assignment-4/testSuite/testSuite.c \
+			 greendan-assignment-4/testSuite/randomtestcard1.c \
+			 greendan-assignment-4/testSuite/randomtestcard2.c \
 			 dominion.o rngs.o $(CFLAGS)
 	-./a.out > randomtestreults.out
 	echo "\n\n" >> randomtestreults.out;
-	gcov -lbf card.c >> randomtestreults.out
+	gcov -lbf dominion.c >> randomtestreults.out
 
 
 

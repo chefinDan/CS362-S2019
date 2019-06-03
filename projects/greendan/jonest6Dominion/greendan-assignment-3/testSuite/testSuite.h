@@ -13,7 +13,7 @@
 #include <errno.h> /* errno */
 
 #define CARDTEST1_DEBUG 0
-#define CARDTEST2_DEBUG 1
+#define CARDTEST2_DEBUG 0
 #define CARDTEST3_DEBUG 0
 #define CARDTEST4_DEBUG 0
 
