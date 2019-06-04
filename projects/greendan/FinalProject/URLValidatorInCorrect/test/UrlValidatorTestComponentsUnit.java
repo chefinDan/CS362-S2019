@@ -3,13 +3,13 @@ import junit.framework.TestCase;
 /**
  * Performs validation tests on the components that make up the Url.
  */
-public class UrlValidatorTestComponents extends TestCase {
+public class UrlValidatorTestComponentsUnit extends TestCase {
     // whether or not to print verbose testing information
     private final boolean printStatus = true;
     private final boolean printIndex = false;
 
 
-    public UrlValidatorTestComponents(String testName) {
+    public UrlValidatorTestComponentsUnit(String testName) {
         super(testName);
     }
 
