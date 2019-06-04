@@ -1,6 +1,6 @@
 import java.util.regex.Pattern;
 
-public class UrlValidatorComponents {
+public class RandomUrlValidator {
     // regex patterns
     private static final String PATH_REGEX = "^(/[-\\w:@&?=+,.!/~*'%$_;()]*)?$";
     private static final Pattern PATH_PATTERN = Pattern.compile(PATH_REGEX);
@@ -14,11 +14,11 @@ public class UrlValidatorComponents {
     /**
      * Constructor
      */
-    public UrlValidatorComponents() {
+    public RandomUrlValidator() {
         this.ALLOW_DOUBLE_SLASHES = false;
     }
 
-    public UrlValidatorComponents(boolean ALLOW_DOUBLE_SLASHES) {
+    public RandomUrlValidator(boolean ALLOW_DOUBLE_SLASHES) {
         this.ALLOW_DOUBLE_SLASHES = ALLOW_DOUBLE_SLASHES;
     }
 

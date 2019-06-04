@@ -3,13 +3,13 @@ import junit.framework.TestCase;
 /**
  * Performs validation tests on the components that make up the Url.
  */
-public class UrlValidatorTestComponentsRandom extends TestCase {
+public class RandomUrlValidatorTest extends TestCase {
     // whether or not to print verbose testing information
     private final boolean printStatus = true;
     private final boolean printIndex = false;
 
 
-    public UrlValidatorTestComponentsRandom(String testName) {
+    public RandomUrlValidatorTest(String testName) {
         super(testName);
     }
 
@@ -51,7 +51,7 @@ public class UrlValidatorTestComponentsRandom extends TestCase {
         }
 
         // initialize a new UrlValidator object
-        UrlValidatorComponents urlVal = new UrlValidatorComponents();
+        RandomUrlValidator urlVal = new RandomUrlValidator();
 
         // execute the isValidPath method on each of the known testUrlPath
         // values to check if isValidPath() is producing expected results.
@@ -61,7 +61,7 @@ public class UrlValidatorTestComponentsRandom extends TestCase {
             comparePrint(pair.valid, result);
         }
 
-        urlVal = new UrlValidatorComponents(true);
+        urlVal = new RandomUrlValidator(true);
 
         // execute the isValidPath method on each of the known testUrlPathOptions
         // values to check if isValidPath() is producing expected results.
