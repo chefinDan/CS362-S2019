@@ -52,6 +52,65 @@ protected void setUp() {
         testIsValid(testUrlPartsOptions, options);
    }
 
+
+/*  The random data will be url's. Each url is composed of url parts. Each url part is a string of ascii chars.
+    In order to generate random urls, the lowest level of the url, the part will be randomly generated.
+    The url consists of the following parts:
+        1. scheme
+        2. authority
+            a. domain name
+            b. tld
+        3. port
+        4. path
+        5. query
+
+    example of complete url: http://www.google.co.uk:80/videoplay?docid=-7246927612831078230
+
+    scheme: http://
+    authority: www.google.co.uk
+        domain name: google.co.uk
+        tld: uk
+    port: 80
+    path: /videoplay
+    query: ?docid=-7246927612831078230
+
+
+    Input domain
+        1. scheme: Any combination of numbers, lowercase letters, periods, colons, and slashes
+            a. Can be blank? yes
+            b. Data Source: randomizer function
+            c. Validation method: is valid if it matches any name found in uri-schemes-1.csv, including provisional names.
+
+        2. authority: a combination of a Domain name and a TLD
+            - Domain name: any combination of lowercase letters, numbers, and periods.
+                a. Can be Blank? no
+                b. Data source: controlled randomizer function
+                c. validation method: InetAddressValidator for ip addresses and basic pattern matching for everything else
+                    *note: due the huge variability in url domain names, the following rules will be followed:
+                        1. a valid domain name will begin with either www. or a string of lowercase letters/numbers followed by a dot.
+                        2. it will not begin or end with a dot
+                        3. It cannot be longer than 64 characters.
+            - TLD: combination of lowercase letters, must be preceeded by a dot.
+                a. Can be blank? no
+                b. Data Source: randomizer function
+                c. Validation method: is valid if begins with dot and DomainValidator.isValid() returns true
+
+        3. Port: combination of numbers, from 1-65535, must be preceeded by a colon.
+            a. can be blank? yes
+            b. Data Source: randomizer function
+            c. Validation method: function that returns true if the port is blank, or a number preceeded by a colon that is between 1 and 65535
+        4. Path: combination of letters, $, #, slashes and periods
+            a. can be blank? yes
+            b. Data Source: controlled randomizer function
+            c. Validation method: urlValidator.isValidPath.
+ */
+
+    public void testRandomIsValid(){
+
+
+       testIsValid();
+   }
+
    public void testIsValidScheme() {
       if (printStatus) {
          System.out.print("\n testIsValidScheme() ");
@@ -138,6 +197,11 @@ protected void setUp() {
          System.out.println();
       }
    }
+
+    /*        Basic Structure
+    *
+     */
+
 
 
     //TODO BUG was: testPartsIndexIndex = testPartsIndex.length; now: testPartsIndexIndex = testPartsIndex.length-1
@@ -525,6 +589,8 @@ protected void setUp() {
        assertTrue(validator.isValid("http://example.com/serach?address=Main%20Avenue"));
        assertTrue(validator.isValid("http://example.com/serach?address=Main+Avenue"));
    }
+
+
 
    //-------------------- Test data for creating a composite URL
    /**
