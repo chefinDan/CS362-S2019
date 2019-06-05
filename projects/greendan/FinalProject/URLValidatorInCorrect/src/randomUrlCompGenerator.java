@@ -16,7 +16,7 @@ public class randomUrlCompGenerator {
 
     }
 
-//    Returns a psuedo-random port
+//    Returns a pseudo-random port
     public String port(){
 
         boolean colonAdded = false;
@@ -40,9 +40,50 @@ public class randomUrlCompGenerator {
         return port.toString();
     }
 
+//    create VERY random query, but with legal format
+    public String query(){
+
+        boolean questionMarkAdded = false;
+        StringBuilder query = new StringBuilder();
+        int pairs = (int)(Math.random() * 5);
+        String[] query_chars = {"_", "-", "%20", "+", "*", "."};
+
+//
+            for(int p = 0; p < pairs; ++p){
+
+                StringBuilder key = new StringBuilder();
+                StringBuilder value = new StringBuilder();
+                StringBuilder pair = new StringBuilder();
+
+                String randchar = query_chars[(int)(Math.random()*1000 %query_chars.length)];
+                key.append( RandomStringUtils.randomAlphanumeric( (int)(Math.random()*100 %6 +1) ) );
+                key.append(randchar);
+                value.append( RandomStringUtils.randomAlphabetic( (int)(Math.random()*100 %6 +1) ) );
+                value.append(randchar);
+
+                if(!questionMarkAdded){
+                    query.append('?');
+                    questionMarkAdded = true;
+                }
+
+                pair.append(key);
+
+                pair.append('=');
+
+                pair.append(value);
+                query.append(pair);
+
+                if(p+1 != pairs){
+                    query.append('&');
+                }
+            }
+
+        return query.toString();
+    }
+
     public static void main(String[] args){
         randomUrlCompGenerator rand = new randomUrlCompGenerator();
-        String randPort = rand.port();
-        System.out.println(randPort);
+        String query = rand.query();
+        System.out.println(query);
     }
 }
