@@ -100,6 +100,8 @@ public class RandomUrlValidatorTest extends TestCase {
      * Tests the functionality of the UrlValidator.isValidScheme method
      * for accuracy, based on the known valid state of a series of predetermined
      * URL scheme values.
+     *
+     * NOTE: This version assumes ALLOW_ALL_SCHEMES is true/on.
      */
     public void testIsValidScheme() {
         if (printStatus) {
@@ -180,14 +182,14 @@ public class RandomUrlValidatorTest extends TestCase {
 
     private ResultPair[] testScheme = {
         new ResultPair("http", true),
-        new ResultPair("ftp", false),
+        new ResultPair("ftp", true),
         new ResultPair("httpd", false),
         new ResultPair("gopher", true),
-        new ResultPair("g0-to+.", true),
+        new ResultPair("g0-to+.", false),
         new ResultPair("not_valid", false), // underscore not allowed
         new ResultPair("HtTp", true),
-        new ResultPair("telnet", false)
+        new ResultPair("telnet", true),
+        new ResultPair(".", false),
+        new ResultPair("", false),
     };
-
-
 }

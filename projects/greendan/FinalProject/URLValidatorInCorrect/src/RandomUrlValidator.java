@@ -407,10 +407,14 @@ public class RandomUrlValidator {
     }
 
 
-
+    /**
+     * Checks if a given String represents a valid query
+     * @param query - the query to inspect
+     * @return boolean - true if the query is valid, false if not.
+     */
     public boolean isValidQuery(String query) {
         // a null or empty string is considered a valid query
-        if (query == null || query.equals("")) {
+        if (query == null || query.isEmpty()) {
             return true;
         }
 
@@ -426,13 +430,18 @@ public class RandomUrlValidator {
      * @return boolean - true if the scheme is valid, false if not.
      */
     public boolean isValidScheme(String scheme) {
-        // NOTE: binary search will only work as long as the
-        // schemes[] array remains sorted.
+        // if the scheme is null or empty, it's not valid
+        if (scheme == null || scheme.isEmpty()) {
+            return false;
+        }
+
 
         // URL schemes are case-insensitive
         scheme = scheme.toLowerCase();
 
         // if the scheme is in the list of valid schemes, it's valid.
+        // NOTE: binary search will only work as long as the
+        // schemes[] array remains sorted.
         return Arrays.binarySearch(schemes, scheme) > -1;
     }
 }
