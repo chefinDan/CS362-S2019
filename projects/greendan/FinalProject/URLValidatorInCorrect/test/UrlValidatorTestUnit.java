@@ -5,7 +5,7 @@ import junit.framework.TestCase;
  */
 public class UrlValidatorTestUnit extends TestCase {
     // whether or not to print verbose testing information
-    private final boolean printStatus = true;
+    private final boolean printStatus = false;
     private final boolean printIndex = false;
 
 
@@ -57,9 +57,32 @@ public class UrlValidatorTestUnit extends TestCase {
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
 
-        long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.NO_FRAGMENTS;
+        // test using each of the predefined urls
+        long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.ALLOW_LOCAL_URLS;
+        for (ResultPair pair : testUrl) {
+            testIsValid(pair);
+        }
+
+        // test using each of the url component combinations
+        options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.NO_FRAGMENTS;
         testIsValid(testUrlPartsOptions, options);
     }
+
+
+
+    /**
+     * Tests the isValid function from the UrlValidator class by
+     * invoking it with a single URL with a known valid state and
+     * comparing the expected and actual results.
+     */
+    public void testIsValid(ResultPair url) {
+        long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.ALLOW_LOCAL_URLS;
+        UrlValidator urlVal = new UrlValidator(null, null, options);
+        boolean result = urlVal.isValid(url.item);
+        assertEquals(url.item, url.valid, result);
+        comparePrint(url.valid, result);
+    }
+
 
 
     /**
@@ -70,9 +93,6 @@ public class UrlValidatorTestUnit extends TestCase {
      */
     private void testIsValid(Object[] testObjects, long options) {
         UrlValidator urlVal = new UrlValidator(null, null, options);
-
-        assertTrue(urlVal.isValid("http://www.google.com"));
-        assertTrue(urlVal.isValid("http://www.google.com/"));
 
         int statusPerLine = 60;
         int printed = 0;
@@ -288,6 +308,10 @@ public class UrlValidatorTestUnit extends TestCase {
 
 
 
+
+
+
+
     /*****************************************
      * Test data for individual URL parts
      ****************************************/
@@ -408,6 +432,15 @@ public class UrlValidatorTestUnit extends TestCase {
         new ResultPair("?action=view", true),
         new ResultPair("?action=edit&mode=up", true),
         new ResultPair("", true)
+    };
+
+
+    // URL values for testing
+    private ResultPair[] testUrl = {
+        new ResultPair("http://www.google.com", true),
+        new ResultPair("https://www.google.com", true),
+        new ResultPair("", false),
+        new ResultPair("foo.bar", false)
     };
 
 
