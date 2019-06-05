@@ -1,5 +1,9 @@
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Random;
+
 
 /*
 *   This class is responsible for generatig random URL components. It follows the input boundries described in the
@@ -10,10 +14,31 @@ public class RandomUrlCompGenerator {
 
 
     private static String[] valid_schemes;
+    private static String[] scheme_chars = {".",":","/"};
+    private static String[] hostname_chars = {"."};
+    private static String[] query_chars = {"_", "-", "%20", "+", "*", "."};
 
     public RandomUrlCompGenerator(){
         RandomUrlValidator randUrlVal = new RandomUrlValidator();
         valid_schemes = randUrlVal.getSchemes();
+    }
+
+    /**
+     *
+     * @return a 50/50 true false split
+     */
+    private boolean rand5050(){
+        Random rand = new Random();
+        return rand.nextBoolean();
+//        if(1 == (int)Math.random()*100 %2);
+    }
+
+    private boolean randBoolN(int n) {
+        return (n == (int) (Math.random() * n));
+    }
+
+    private int randNum(int lower, int upper){
+        return (int)(Math.random()*upper + lower);
     }
 
     /**
@@ -27,13 +52,23 @@ public class RandomUrlCompGenerator {
         int length = (int)(Math.random() *12);
 
         for(int k = 0; k < length; ++k ) {
-            if (1 == (int) (Math.random() * 100 % 2)) {
+            if (rand5050()){
                 if (!colonAdded) {
                     port.append(':');
                     colonAdded = true;
                 }
-            } else {
-
+            }
+            else if(randBoolN(2)) {
+                port.append(RandomStringUtils.randomAlphabetic(1,6));
+            }
+            else if(randBoolN(2)){
+                port.append(RandomStringUtils.randomAlphanumeric(1, 12));
+            }
+            else if(randBoolN(2)){
+                int number = (int) (Math.random() * 30);
+                port.append(number);
+            }
+            else{
                 int number = (int) (Math.random() * 9);
                 port.append(number);
             }
@@ -50,8 +85,7 @@ public class RandomUrlCompGenerator {
 
         boolean questionMarkAdded = false;
         StringBuilder query = new StringBuilder();
-        int pairs = (int)(Math.random() * 5);
-        String[] query_chars = {"_", "-", "%20", "+", "*", "."};
+        int pairs = (int)(Math.random() * 6);
 
             for(int p = 0; p < pairs; ++p){
 
@@ -59,10 +93,12 @@ public class RandomUrlCompGenerator {
                 StringBuilder value = new StringBuilder();
                 StringBuilder pair = new StringBuilder();
 
-                String randchar = query_chars[(int)(Math.random()*100 %query_chars.length)];
-                key.append( RandomStringUtils.randomAlphanumeric( (int)(Math.random()*100 %6 +1) ) );
+                String randchar = query_chars[randNum(0, query_chars.length)];
+
+                key.append( RandomStringUtils.randomAlphanumeric(1, 6) );
                 key.append(randchar);
-                value.append( RandomStringUtils.randomAlphabetic( (int)(Math.random()*100 %6 +1) ) );
+
+                value.append( RandomStringUtils.randomAlphabetic( 1, 6));
                 value.append(randchar);
 
                 if(!questionMarkAdded){
@@ -90,30 +126,27 @@ public class RandomUrlCompGenerator {
      * @return a psuedo random scheme, about half will be from RandomUrlValidator.schemes
      */
     public String scheme() {
-
         StringBuilder random_scheme = new StringBuilder();
-        String[] scheme_chars = {".",":","/"};
 
-        if (1 == (int) (Math.random() * 100 % 2)) {
-            random_scheme.append(valid_schemes[(int) (Math.random() * 100 % valid_schemes.length)]);
-//            random_scheme.append("://");
-        } else {
+        if (rand5050()) {
+            random_scheme.append(valid_schemes[randNum(0, valid_schemes.length)]);
+        }
+        else {
+            random_scheme.append( RandomStringUtils.randomAlphanumeric(0, 3));
+            random_scheme.append( scheme_chars[randNum(0, scheme_chars.length)]);
+            random_scheme.append( RandomStringUtils.randomAlphanumeric(0, 3));
 
-            random_scheme.append(RandomStringUtils.randomAlphanumeric((int) (Math.random() * 100 % 3)));
-            random_scheme.append(scheme_chars[(int)(Math.random()*100 %scheme_chars.length)]);
-            random_scheme.append(RandomStringUtils.randomAlphanumeric((int) (Math.random() * 100 % 3)));
-
-            if (1 == (int) (Math.random() * 100 % 3)){
+            if (randBoolN(3)){
                 random_scheme.append(RandomStringUtils.randomAlphanumeric(36));
             }
 
-            if (1 == (int) (Math.random() * 100 % 6)){
+            if (randBoolN(6)){
                 random_scheme.append(":/");
             }
-            else if (1 == (int) (Math.random() * 100 % 6)){
+            else if (randBoolN(6)){
                 random_scheme.append("/:");
             }
-            else if (1 == (int) (Math.random() * 100 % 6)){
+            else if (randBoolN(6)){
                 random_scheme.append("://");
             }
         }
@@ -122,22 +155,65 @@ public class RandomUrlCompGenerator {
     }
 
 
+    private String hostname() {
+        StringBuilder hostname = new StringBuilder();
+
+        if(randBoolN(4)){
+            hostname.append("www.");
+        }
+
+        if (rand5050()) {
+            hostname.append(RandomStringUtils.randomAlphanumeric(1, 3));
+        }
+
+        if(randBoolN(4)){
+            hostname.append(hostname_chars[randNum(0, hostname_chars.length)]);
+        }
+
+        if (rand5050()){
+            hostname.append(RandomStringUtils.randomAlphanumeric(1, 6));
+        }
+
+        if(randBoolN(6)){
+            hostname.append(hostname_chars[randNum(0, hostname_chars.length)]);
+        }
+
+        if(rand5050()){
+            hostname.append(RandomStringUtils.randomAlphanumeric(1, 6));
+        }
+        return hostname.toString();
+    }
+
+    private String tld(){
+        StringBuilder tld = new StringBuilder();
+        tld.append(RandomStringUtils.randomAlphabetic(2, 6));
+        return tld.toString().toLowerCase();
+    }
+
+
+    public String authority(){
+        String hostname = hostname();
+        return hostname;
+    }
+
+
     public static void main(String[] args){
         RandomUrlCompGenerator rand = new RandomUrlCompGenerator();
-        int good = 0, bad = 0;
+        RandomUrlValidator randValid = new RandomUrlValidator();
+        int valid = 0, invalid = 0;
 
-        for(int i = 0; i < 10000; i++){
-            String scheme = rand.scheme();
-            RandomUrlValidator randValidate = new RandomUrlValidator();
-            if (randValidate.isValidScheme(scheme)){
-//                System.out.printf("%s: Good\n", scheme);
-                good++;
+        for (int i = 0; i < 100; ++i){
+            String port = rand.port();
+            if(randValid.isValidPort(port)){
+                valid++;
             }
             else{
-//                System.out.printf("%s: Bad\n", scheme);
-                bad++;
+                invalid++;
             }
         }
+
+        System.out.println(valid);
+        System.out.println(invalid);
 
     }
 }

@@ -18,6 +18,9 @@ public class RandomUrlValidator {
     private static final String QUERY_REGEX = "^\\?(\\w+(=[\\w.-]*)?(&\\w+(=[\\w.-]*)?)*)?$";
     private static final Pattern QUERY_PATTERN = Pattern.compile(QUERY_REGEX);
 
+    private static final String PORT_REGEX = ":(6553[0-5]|655[0-2][0-9]\\d|65[0-4](\\d){2}|6[0-4](\\d){3}|[1-5](\\d){4}|[1-9](\\d){0,3})";
+    private static final Pattern PORT_PATTERN = Pattern.compile(PORT_REGEX);
+
 
     //
     // flags
@@ -340,7 +343,6 @@ public class RandomUrlValidator {
         "z39.50s"
     };
 
-
     /**
      * Constructor
      */
@@ -447,5 +449,15 @@ public class RandomUrlValidator {
         // NOTE: binary search will only work as long as the
         // schemes[] array remains sorted.
         return Arrays.binarySearch(schemes, scheme) > -1;
+    }
+
+
+    public boolean isValidPort(String port){
+
+        if(port == null || port.isEmpty()){
+            return false;
+        }
+
+        return PORT_PATTERN.matcher(port).matches();
     }
 }
