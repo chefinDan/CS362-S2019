@@ -189,8 +189,7 @@ public class RandomUrlCompGenerator {
         tld.append(RandomStringUtils.randomAlphabetic(2, 6));
         return tld.toString().toLowerCase();
     }
-
-
+    
     public String authority(){
         String hostname = hostname();
         return hostname;
