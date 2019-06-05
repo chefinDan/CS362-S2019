@@ -352,6 +352,11 @@ public class RandomUrlValidator {
         this.ALLOW_DOUBLE_SLASHES = ALLOW_DOUBLE_SLASHES;
     }
 
+    /**
+     *
+     * @return all valid schemes
+     */
+    public String[] getSchemes(){ return schemes; }
 
     /**
      * Returns the number if instances of a specified element within a target element.
@@ -434,7 +439,6 @@ public class RandomUrlValidator {
         if (scheme == null || scheme.isEmpty()) {
             return false;
         }
-
 
         // URL schemes are case-insensitive
         scheme = scheme.toLowerCase();
