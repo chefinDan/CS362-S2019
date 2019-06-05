@@ -73,38 +73,121 @@ public class RandomUrlValidatorTest extends TestCase {
     }
 
 
+    /**
+     * Tests the functionality of the UrlValidator.isValidQuery method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL query values.
+     */
+    public void testIsValidQuery() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidQuery():\t\t");
+        }
+
+        // initialize a new UrlValidator object
+        RandomUrlValidator urlVal = new RandomUrlValidator();
+
+        // execute the isValidQuery method on each of the known testUrlQuery
+        // values to check if isValidQuery() is producing expected results.
+        for (ResultPair pair : testUrlQuery) {
+            boolean result = urlVal.isValidQuery(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+    /**
+     * Tests the functionality of the UrlValidator.isValidScheme method
+     * for accuracy, based on the known valid state of a series of predetermined
+     * URL scheme values.
+     */
+    public void testIsValidScheme() {
+        if (printStatus) {
+            System.out.print("\ntestIsValidScheme():\t");
+        }
+
+        // initialize a new UrlValidator object
+        RandomUrlValidator urlVal = new RandomUrlValidator();
+
+        // execute the isValidScheme method on each of the known testUrlScheme
+        // values to check if isValidScheme() is producing expected results.
+        for (ResultPair pair : testScheme) {
+            boolean result = urlVal.isValidScheme(pair.item);
+            assertEquals(pair.item, pair.valid, result);
+            comparePrint(pair.valid, result);
+        }
+    }
+
+
+
+
+
+    //
+    // component values for testing
+    //
+
+    // URL query values for testing
+    private ResultPair[] testUrlQuery = {
+        new ResultPair("?foo=bar", true),
+        new ResultPair("?foo=bar&bar=baz", true),
+        new ResultPair("", true),
+        new ResultPair(".", false),
+        new ResultPair("foo", false),
+        new ResultPair("??q=foo", false),
+        new ResultPair("?q=?", false),
+        new ResultPair("?&q=foo", false),
+        new ResultPair("?foo", true),
+        new ResultPair("?a=", true),
+        new ResultPair("?a=b=", false),
+        new ResultPair("?", true),
+    };
 
     // URL path values for testing
     private ResultPair[] testPath = {
-        new ResultPair("/test1", true),
-        new ResultPair("/t123", true),
-        new ResultPair("/$23", true),
+        new ResultPair("/foo1", true),
+        new ResultPair("/bar123", true),
+        new ResultPair("/$55", true),
         new ResultPair("/..", false),
         new ResultPair("/../", false),
-        new ResultPair("/test1/", true),
+        new ResultPair("..", false),
+        new ResultPair("/foo1/", true),
         new ResultPair("", true),
-        new ResultPair("/test1/file", true),
-        new ResultPair("/..//file", false),
-        new ResultPair("/test1//file", false)
+        new ResultPair("/foo1/bar", true),
+        new ResultPair("/..//baz", false),
+        new ResultPair("/foo//bar", false)
     };
 
     // URL path options values for testing
     private ResultPair[] testUrlPathOptions = {
-        new ResultPair("/test1", true),
-        new ResultPair("/t123", true),
-        new ResultPair("/$23", true),
+        new ResultPair("/foo1", true),
+        new ResultPair("/foo123", true),
+        new ResultPair("/$55", true),
         new ResultPair("/..", false),
         new ResultPair("/../", false),
-        new ResultPair("/test1/", true),
+        new ResultPair("..", false),
+        new ResultPair("/foo1/", true),
         new ResultPair("/#", false),
         new ResultPair("", true),
-        new ResultPair("/test1/file", true),
-        new ResultPair("/t123/file", true),
-        new ResultPair("/$23/file", true),
-        new ResultPair("/../file", false),
-        new ResultPair("/..//file", false),
-        new ResultPair("/test1//file", true),
-        new ResultPair("/#/file", false)
+        new ResultPair("/foo1/bar", true),
+        new ResultPair("/foo123/bar", true),
+        new ResultPair("/$23/baz", true),
+        new ResultPair("/../baz", false),
+        new ResultPair("/..//baz", false),
+        new ResultPair("/foo1//bar", true),
+        new ResultPair("/#/baz", false)
     };
+
+
+    private ResultPair[] testScheme = {
+        new ResultPair("http", true),
+        new ResultPair("ftp", false),
+        new ResultPair("httpd", false),
+        new ResultPair("gopher", true),
+        new ResultPair("g0-to+.", true),
+        new ResultPair("not_valid", false), // underscore not allowed
+        new ResultPair("HtTp", true),
+        new ResultPair("telnet", false)
+    };
+
 
 }

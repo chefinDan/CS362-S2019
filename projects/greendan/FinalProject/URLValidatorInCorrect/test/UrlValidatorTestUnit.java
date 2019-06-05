@@ -3,13 +3,13 @@ import junit.framework.TestCase;
 /**
  * Performs validation tests on the components that make up the Url.
  */
-public class UrlValidatorTestComponentsUnit extends TestCase {
+public class UrlValidatorTestUnit extends TestCase {
     // whether or not to print verbose testing information
     private final boolean printStatus = true;
     private final boolean printIndex = false;
 
 
-    public UrlValidatorTestComponentsUnit(String testName) {
+    public UrlValidatorTestUnit(String testName) {
         super(testName);
     }
 
@@ -126,7 +126,6 @@ public class UrlValidatorTestComponentsUnit extends TestCase {
 
 
 
-
     /**
      * Tests the functionality of the UrlValidator.isValidAuthority method
      * for accuracy, based on the known valid state of a series of predetermined
@@ -150,6 +149,7 @@ public class UrlValidatorTestComponentsUnit extends TestCase {
     }
 
 
+
     /**
      * Tests the functionality of the UrlValidator.isValidScheme method
      * for accuracy, based on the known valid state of a series of predetermined
@@ -171,6 +171,7 @@ public class UrlValidatorTestComponentsUnit extends TestCase {
             comparePrint(pair.valid, result);
         }
     }
+
 
 
     /**
