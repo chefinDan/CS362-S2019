@@ -335,7 +335,7 @@ public class UrlValidator implements Serializable {
 
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
-            System.out.printf("Invalid Scheme:  %s\n", scheme);
+//            System.out.printf("Invalid Scheme:  %s\n", scheme);
             return false;
         }
 
@@ -350,23 +350,23 @@ public class UrlValidator implements Serializable {
         } else { // not file:
             // Validate the authority
             if (!isValidAuthority(authority)) {
-                System.out.printf("Invalid Authority:  %s\n", authority);
+//                System.out.printf("Invalid Authority:  %s\n", authority);
                 return false;
             }
         }
 
         if (!isValidPath(urlMatcher.group(PARSE_URL_PATH))) {
-            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_PATH));
+//            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_PATH));
             return false;
         }
 
         if (!isValidQuery(urlMatcher.group(PARSE_URL_QUERY))) {
-            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_QUERY));
+//            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_QUERY));
             return false;
         }
 
         if (!isValidFragment(urlMatcher.group(PARSE_URL_FRAGMENT))) {
-            System.out.println("Fragment Fails");
+//            System.out.println("Fragment Fails");
             return false;
         }
 

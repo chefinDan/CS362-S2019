@@ -82,16 +82,16 @@ public class UrlValidatorTest extends TestCase {
      * and the testUrlPartsOptions.
      */
     public void testIsValid() {
-        // test using each of the predefined urls
+//        // test using each of the predefined urls
         for (ResultPair pair : testUrl) {
             testIsValid(pair);
         }
 
-        // test using each of the url component combinations without options
+//        // test using each of the url component combinations without options
         testIsValid(testUrlParts, UrlValidator.ALLOW_ALL_SCHEMES);
         setUp();
 
-        // test using each of the url component combinations with options
+//        // test using each of the url component combinations with options
         long options = UrlValidator.ALLOW_2_SLASHES + UrlValidator.ALLOW_ALL_SCHEMES + UrlValidator.NO_FRAGMENTS;
         testIsValid(testUrlPartsOptions, options);
 
