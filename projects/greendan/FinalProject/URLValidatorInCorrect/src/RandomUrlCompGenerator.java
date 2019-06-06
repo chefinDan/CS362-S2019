@@ -1283,6 +1283,8 @@ public class RandomUrlCompGenerator {
         return (int) (Math.random() * upper + lower);
     }
 
+
+
     /**
      * @return Returns a pseudo-random port
      */
@@ -1293,12 +1295,12 @@ public class RandomUrlCompGenerator {
         int length = (int) (Math.random() * 12);
 
         for (int k = 0; k < length; ++k) {
-            if (rand5050()) {
-                if (!colonAdded) {
-                    port.append(':');
-                    colonAdded = true;
-                }
-            } else if (randBoolN(2)) {
+//            if (rand5050()) {
+//                if (!colonAdded) {
+//                    port.append(':');
+//                    colonAdded = true;
+//                }
+            if (randBoolN(2)) {
                 port.append(RandomStringUtils.randomAlphabetic(1, 6));
             } else if (randBoolN(2)) {
                 port.append(RandomStringUtils.randomAlphanumeric(1, 12));
@@ -1311,8 +1313,11 @@ public class RandomUrlCompGenerator {
             }
         }
 
+        port.append("");
         return port.toString();
     }
+
+
 
     /**
      * @return a VERY random query, but with legal format
@@ -1329,13 +1334,13 @@ public class RandomUrlCompGenerator {
             StringBuilder value = new StringBuilder();
             StringBuilder pair = new StringBuilder();
 
-            String randchar = query_chars[randNum(0, query_chars.length)];
+//            String randchar = query_chars[randNum(0, query_chars.length)];
 
             key.append(RandomStringUtils.randomAlphanumeric(1, 6));
-            key.append(randchar);
+//            key.append(randchar);
 
             value.append(RandomStringUtils.randomAlphabetic(1, 6));
-            value.append(randchar);
+//            value.append(randchar);
 
             if (!questionMarkAdded) {
                 query.append('?');
@@ -1357,6 +1362,8 @@ public class RandomUrlCompGenerator {
         return query.toString();
     }
 
+
+
     /**
      * @return a psuedo random scheme, about half will be from RandomUrlValidator.schemes
      */
@@ -1365,6 +1372,7 @@ public class RandomUrlCompGenerator {
 
         if (rand5050()) {
             random_scheme.append(valid_schemes[randNum(0, valid_schemes.length)]);
+            random_scheme.append("://");
         } else {
             random_scheme.append(RandomStringUtils.randomAlphanumeric(0, 3));
             random_scheme.append(scheme_chars[randNum(0, scheme_chars.length)]);
@@ -1378,11 +1386,12 @@ public class RandomUrlCompGenerator {
                 random_scheme.append(":/");
             } else if (randBoolN(6)) {
                 random_scheme.append("/:");
-            } else if (randBoolN(6)) {
+            } else {
                 random_scheme.append("://");
             }
         }
 
+//        System.out.println(random_scheme.toString());
         return random_scheme.toString();
     }
 
@@ -1449,17 +1458,17 @@ public class RandomUrlCompGenerator {
         if (rand5050()) {
             path.append(RandomStringUtils.randomAlphabetic(1, 6));
         }
-        if (rand5050()) {
-            path.append(path_chars[randNum(0, path_chars.length)]);
-        }
+//        if (rand5050()) {
+//            path.append(path_chars[randNum(0, path_chars.length)]);
+//        }
 
         if (rand5050()) {
             path.append(RandomStringUtils.randomAlphabetic(1, 6));
         }
 
-        if (rand5050()) {
-            path.append(path_chars[randNum(0, path_chars.length)]);
-        }
+//        if (rand5050()) {
+//            path.append(path_chars[randNum(0, path_chars.length)]);
+//        }
 
         if (rand5050()) {
             path.append(RandomStringUtils.randomAlphabetic(1, 36));
@@ -1467,21 +1476,5 @@ public class RandomUrlCompGenerator {
 
 
         return path.toString();
-    }
-
-
-    public static void main(String[] args) {
-        RandomUrlCompGenerator rand = new RandomUrlCompGenerator();
-        RandomUrlValidator randValid = new RandomUrlValidator();
-        DomainValidator domValid = DomainValidator.getInstance();
-
-        int valid = 0, invalid = 0;
-
-        for (int i = 0; i < 100; ++i) {
-            String path = rand.path();
-
-            System.out.println(path);
-
-        }
     }
 }

@@ -442,21 +442,25 @@ public class RandomUrlValidator {
             return false;
         }
 
+        if(!scheme.endsWith("://")){
+            return false;
+        }
+
         // URL schemes are case-insensitive
         scheme = scheme.toLowerCase();
 
         // if the scheme is in the list of valid schemes, it's valid.
         // NOTE: binary search will only work as long as the
         // schemes[] array remains sorted.
-        return Arrays.binarySearch(schemes, scheme) > -1;
+        return Arrays.binarySearch(schemes, scheme.substring(0, scheme.length()-3)) > -1;
     }
 
 
     public boolean isValidPort(String port){
 
-        if(port == null || port.isEmpty()){
-            return false;
-        }
+//        if(port == null){
+//            return false;
+//        }
 
         return PORT_PATTERN.matcher(port).matches();
     }

@@ -292,6 +292,7 @@ public class UrlValidator implements Serializable {
         this.options = options;
 
         if (isOn(ALLOW_ALL_SCHEMES)) {
+            System.out.println("Allow all schemes");
             // TODO: write bug report for the bug that has been fixed in the commented-out lines below.
             // allowedSchemes = new HashSet<String>(0);
             // allowedSchemes.add(schemes[0].toLowerCase(Locale.ENGLISH));
@@ -336,11 +337,13 @@ public class UrlValidator implements Serializable {
         // Check the whole url address structure
         Matcher urlMatcher = URL_PATTERN.matcher(value);
         if (!urlMatcher.matches()) {
+//            System.out.printf("Invalud Url:  %s\n", value);
             return false;
         }
 
         String scheme = urlMatcher.group(PARSE_URL_SCHEME);
         if (!isValidScheme(scheme)) {
+//            System.out.printf("Invalid Scheme:  %s\n", scheme);
             return false;
         }
 
@@ -355,19 +358,23 @@ public class UrlValidator implements Serializable {
         } else { // not file:
             // Validate the authority
             if (!isValidAuthority(authority)) {
+//                System.out.printf("Invalid Authority:  %s\n", authority);
                 return false;
             }
         }
 
         if (!isValidPath(urlMatcher.group(PARSE_URL_PATH))) {
+//            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_PATH));
             return false;
         }
 
         if (!isValidQuery(urlMatcher.group(PARSE_URL_QUERY))) {
+            System.out.printf("Invalid Path: %s\n", urlMatcher.group(PARSE_URL_QUERY));
             return false;
         }
 
         if (!isValidFragment(urlMatcher.group(PARSE_URL_FRAGMENT))) {
+            System.out.println("Fragment Fails");
             return false;
         }
 
