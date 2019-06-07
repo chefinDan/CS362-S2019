@@ -442,17 +442,22 @@ public class RandomUrlValidator {
             return false;
         }
 
-        if(!scheme.endsWith("://")){
+//        / URL schemes are case-insensitive
+        scheme = scheme.toLowerCase();
+
+//        if the scheme is file, and has ://, return false
+        if(scheme.contains("file") && scheme.endsWith("://")){
             return false;
         }
 
-        // URL schemes are case-insensitive
-        scheme = scheme.toLowerCase();
 
         // if the scheme is in the list of valid schemes, it's valid.
         // NOTE: binary search will only work as long as the
         // schemes[] array remains sorted.
-        return Arrays.binarySearch(schemes, scheme.substring(0, scheme.length()-3)) > -1;
+//        System.out.println(scheme);
+
+        scheme = scheme.substring(0, scheme.length()-3);
+        return Arrays.binarySearch(schemes, scheme) > -1;
     }
 
 
@@ -461,6 +466,18 @@ public class RandomUrlValidator {
 //        if(port == null){
 //            return false;
 //        }
+        if(port.length() > 7){
+            return false;
+        }
+
+        if(port.isEmpty()){
+            return true;
+        }
+
+
+        if(Integer.parseInt(port.substring(1)) > -1 && Integer.parseInt(port.substring(1)) < 65535){
+            return true;
+        }
 
         return PORT_PATTERN.matcher(port).matches();
     }

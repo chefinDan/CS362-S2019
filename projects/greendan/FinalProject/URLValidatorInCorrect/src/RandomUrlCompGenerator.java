@@ -130,7 +130,9 @@ public class RandomUrlCompGenerator {
 
         if (rand5050()) {
             random_scheme.append(valid_schemes[randNum(0, valid_schemes.length)]);
-            random_scheme.append("://");
+            if(random_scheme.indexOf("file") < 0){
+                random_scheme.append("://");
+            }
         } else {
             random_scheme.append(RandomStringUtils.randomAlphanumeric(0, 3));
             random_scheme.append(scheme_chars[randNum(0, scheme_chars.length)]);
