@@ -456,7 +456,9 @@ public class RandomUrlValidator {
         // schemes[] array remains sorted.
 //        System.out.println(scheme);
 
-        scheme = scheme.substring(0, scheme.length()-3);
+        if(scheme.endsWith("://")){
+        	scheme = scheme.substring(0, scheme.length()-3);
+        }
         return Arrays.binarySearch(schemes, scheme) > -1;
     }
 
